@@ -79,11 +79,11 @@ headsetplus-studio/
 │   ├── build_standalone_exe.py # Compilador do Executável Único (PyInstaller)
 │   ├── package_release.py      # Empacotador de Releases (ZIP Portátil e Inno Setup)
 │   └── master_audit_and_test_suite.py # Suíte de Testes Automatizada (6 Frentes)
-├── ui/                         # Assets Web do Frontend (HTML5, CSS3, JS Vanilla Modular)
+├── ui/                         # Modern Frontend Web Assets (CSS3, Modular JS)
 ├── assets/                     # Renders 3D em Alta Definição e Ícones Oficiais
 ├── .github/workflows/ci.yml    # Pipeline de CI/CD Automatizado no GitHub Actions
-├── headsetplus_studio.pyw      # Ponto de Entrada Oficial Enxuto da Aplicação (~20 linhas)
-├── sony_sound_connect_pc.pyw   # Ponto de Entrada de Retrocompatibilidade
+├── headsetplus_studio.pyw      # Ponto de Entrada Oficial da Aplicação
+├── index.html                  # Interface Web Obsidian Glassmorphism
 ├── config.json                 # Arquivo de Preferências do Usuário (Persistência Atômica)
 └── LICENSE.md                  # Licença de Propriedade do Projeto
 ```

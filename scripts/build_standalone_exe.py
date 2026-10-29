@@ -68,7 +68,7 @@ def build_executable() -> bool:
     data_files = [
         ("assets", "assets"),
         ("ui", "ui"),
-        ("ui_ghub.html", "."),
+        ("index.html", "."),
         ("apo_dsp", "apo_dsp"),
         ("fix_windows_audio.ps1", "."),
         ("LICENSE.md", "."),

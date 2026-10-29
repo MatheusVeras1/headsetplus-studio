@@ -9,7 +9,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 print("1. Testando detecção do idioma do sistema operacional...")
 sys.path.insert(0, os.path.abspath("."))
 import importlib.util
-spec = importlib.util.spec_from_file_location("sony_sound_connect_pc", "sony_sound_connect_pc.pyw")
+spec = importlib.util.spec_from_file_location("headsetplus_studio", "headsetplus_studio.pyw")
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 detect_system_language = mod.detect_system_language

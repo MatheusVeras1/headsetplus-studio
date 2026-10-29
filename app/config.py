@@ -26,7 +26,7 @@ else:
 BASE_DIR: str = APP_DIR
 CONFIG_PATH: str = os.path.join(APP_DIR, "config.json")
 ASSETS_DIR: str = os.path.join(RESOURCE_DIR, "assets")
-UI_HTML_PATH: str = os.path.join(RESOURCE_DIR, "ui_ghub.html")
+UI_HTML_PATH: str = os.path.join(RESOURCE_DIR, "index.html")
 ICON_ICO_PATH: str = os.path.join(ASSETS_DIR, "app_icon.ico")
 ICON_PNG_PATH: str = os.path.join(ASSETS_DIR, "app_icon.png")
 

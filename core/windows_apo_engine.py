@@ -15,7 +15,7 @@ from typing import Any, Dict, List, Optional
 
 APO_DEFAULT_CONFIG_DIR = r"C:\Program Files\EqualizerAPO\config"
 APO_MAIN_CONFIG_FILE = os.path.join(APO_DEFAULT_CONFIG_DIR, "config.txt")
-APO_INCLUDE_FILENAME = "sony_sound_connect_dsp.txt"
+APO_INCLUDE_FILENAME = "headsetplus_studio_dsp.txt"
 
 SPATIAL_APO_MODES: Dict[str, Dict[str, float]] = {
     "nearfield": {"cutoff_hz": 700.0, "delay_ms": 0.28, "base_cross_db": -6.0},

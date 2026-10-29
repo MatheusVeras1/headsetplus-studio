@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
 
 from core.device_detector import is_windows_bluetooth_connected
-from sony_sound_connect_pc import SonyGHubController, load_config
+from headsetplus_studio import HeadsetPlusStudioController as SonyGHubController, load_config
 
 def main():
     mac = "14:3F:A6:5D:DF:D5"

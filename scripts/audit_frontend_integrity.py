@@ -91,7 +91,7 @@ print("\n[4] Auditando chamadas window.pywebview.api.* no JavaScript:")
 api_calls = set(re.findall(r'window\.pywebview\.api\.([a-zA-Z0-9_]+)\s*\(', combined_js))
 print(f"    Total de chamadas RPC encontradas no JS: {len(api_calls)}")
 
-with open("sony_sound_connect_pc.pyw", "r", encoding="utf-8") as f:
+with open("headsetplus_studio.pyw", "r", encoding="utf-8") as f:
     py_code = f.read()
 
 # Extract methods of GHubApiBridge

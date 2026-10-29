@@ -47,7 +47,7 @@ print(f"  ✓ {compiled_count} arquivos Python (.py / .pyw) compilados com 0 err
 # ---------------------------------------------------------
 print("\n[TESTE 2/6] Execução Funcional de Todos os Métodos RPC (Frontend -> Backend Bridge)...")
 
-spec = importlib.util.spec_from_file_location("sony_sound_connect_pc", "sony_sound_connect_pc.pyw")
+spec = importlib.util.spec_from_file_location("headsetplus_studio", "headsetplus_studio.pyw")
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 
@@ -181,7 +181,7 @@ else:
 # ---------------------------------------------------------
 print("\n[TESTE 5/6] Verificação dos 106 IDs do DOM e 157 Chaves nos 7 Idiomas...")
 
-with open("ui_ghub.html", "r", encoding="utf-8") as f:
+with open("index.html", "r", encoding="utf-8") as f:
     html = f.read()
 
 with open("ui/i18n.js", "r", encoding="utf-8") as f:
@@ -214,8 +214,8 @@ print(f"  ✓ Todos os 7 idiomas possuem 100% das chaves traduzidas sem vazament
 # ---------------------------------------------------------
 print("\n[TESTE 6/6] Verificação de Integridade dos Créditos Autorais e Licença...")
 files_to_check_credits = [
-    "sony_sound_connect_pc.pyw",
-    "ui_ghub.html",
+    "headsetplus_studio.pyw",
+    "index.html",
     "ui/app.js",
     "ui/eq_engine.js",
     "ui/acoustic_lab.js",

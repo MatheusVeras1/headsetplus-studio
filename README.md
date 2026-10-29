@@ -79,11 +79,11 @@ headsetplus-studio/
 │   ├── build_standalone_exe.py # Standalone Windows Binary Builder (PyInstaller)
 │   ├── package_release.py      # GitHub Release Packager (Portable ZIP & Inno Setup)
 │   └── master_audit_and_test_suite.py # 6-Front Automated Quality Gate
-├── ui/                         # Modern Frontend Web Assets (HTML5, CSS3, Modular JS)
+├── ui/                         # Modern Frontend Web Assets (CSS3, Modular JS)
 ├── assets/                     # 2K Renders, Official Icons & 3D Visual Assets
 ├── .github/workflows/ci.yml    # GitHub Actions Continuous Integration (Windows 11)
-├── headsetplus_studio.pyw      # Official Lightweight Clean Entry Point (~20 lines)
-├── sony_sound_connect_pc.pyw   # Backward-Compatible Bridge Entry Point
+├── headsetplus_studio.pyw      # Official Clean Entry Point
+├── index.html                  # Obsidian Glassmorphism Studio Frontend UI
 ├── config.json                 # User Configuration State (Atomic Safe Save)
 └── LICENSE.md                  # Proprietary Source-Available License
 ```
