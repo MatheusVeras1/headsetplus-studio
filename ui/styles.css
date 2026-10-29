@@ -1,0 +1,2442 @@
+/* ==========================================================================
+   Sony Sound Connect PC — Design System & GPU Composite Stylesheet
+   Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
+   ========================================================================== */
+  /* ==========================================================================
+     TOKENS DE DESIGN & ANIMAÇÃO (Apple Fluid Design + Emil Kowalski + G HUB)
+     ========================================================================== */
+  :root {
+    --bg-obsidian: #07080b;
+    --bg-carbon: #0d0f15;
+    --bg-surface: rgba(18, 21, 30, 0.72);
+    --bg-surface-elevated: rgba(26, 31, 44, 0.85);
+    --border-hairline: rgba(255, 255, 255, 0.065);
+    --border-specular: rgba(255, 255, 255, 0.13);
+
+    /* Paleta Logitech G Cyan + Sony Champagne Copper + Apple Emerald */
+    --ghub-cyan: #00e5ff;
+    --ghub-blue: #2563eb;
+    --sony-copper: #c5a059;
+    --sony-copper-bright: #e5c178;
+    --emerald: #10b981;
+    --danger: #ef4444;
+
+    /* Tipografia */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* Curvas sancionadas (animate SKILL.md) */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+    /* Halo Dinâmico LIGHTSYNC */
+    --halo-color: rgba(0, 229, 255, 0.14);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ==========================================================================
+     BARRA DE SCROLL PREMIUM ESTILO APPLE / G HUB (VIDRO TRANSLÚCIDO & CIANO)
+     ========================================================================== */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 229, 255, 0.55);
+    border-color: rgba(0, 229, 255, 0.7);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--ghub-cyan);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  body {
+    font: 100%/1.45 "Segoe UI Variable Display", "SF Pro Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-obsidian);
+    color: var(--text-primary);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app-layout {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    grid-template-rows: 1fr;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Camada GPU isolada (0 filhos) para o Halo Dinâmico LIGHTSYNC:
+     evita recálculo de estilo herdado em toda a árvore DOM (animation-performance Trap #1) */
+  .ambient-halo-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    --halo-color: rgba(0, 229, 255, 0.14);
+    background-image:
+      radial-gradient(circle at 52% 14%, var(--halo-color), transparent 54%),
+      radial-gradient(circle at 88% 88%, rgba(197, 160, 89, 0.06), transparent 48%);
+    transition: opacity 280ms var(--ease-out);
+  }
+
+  /* Tipografia com Optical Sizing e Tracking específico por tamanho (apple-design §15) */
+  h1, .display-title {
+    letter-spacing: -0.022em;
+    line-height: 1.08;
+    font-weight: 700;
+  }
+  h2, .section-title {
+    letter-spacing: -0.016em;
+    line-height: 1.18;
+    font-weight: 600;
+  }
+  .micro-label {
+    font-size: 0.69rem;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ==========================================================================
+     BARRA LATERAL VERTICAL (LOGITECH G HUB + APPLE GLASS MATERIAL)
+     ========================================================================== */
+  .nav-rail {
+    grid-row: 1;
+    grid-column: 1;
+    background: rgba(10, 12, 18, 0.84);
+    backdrop-filter: blur(28px) saturate(190%);
+    border-right: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    z-index: 30;
+    position: relative;
+  }
+
+  .brand-crest {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(229, 193, 120, 0.32);
+    background: #0b0d12;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .brand-crest img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+    position: relative;
+    flex: 1;
+  }
+
+  .nav-active-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 44px;
+    background: var(--ghub-cyan);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 12px var(--ghub-cyan);
+    transform: translateY(0px);
+    transition: transform 220ms var(--ease-in-out);
+    pointer-events: none;
+  }
+
+  .nav-btn {
+    width: 46px;
+    height: 44px;
+    border-radius: 11px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition:
+      transform 140ms var(--ease-out),
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .nav-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.85;
+  }
+
+  .nav-btn.active {
+    color: var(--ghub-cyan);
+    background: rgba(0, 229, 255, 0.085);
+    border-color: rgba(0, 229, 255, 0.22);
+  }
+
+  /* Feedback tátil instantâneo no pointer-down (apple-design §1 & emil-design-eng) */
+  .nav-btn:active,
+  .btn:active,
+  .preset-card:active,
+  .autoeq-card:active,
+  .nc-card:active,
+  .spatial-mode-card:active,
+  .device-select-btn:active,
+  .seg-tab:active,
+  .brand-pill:active,
+  .popover-trigger:active {
+    transform: scale(0.965);
+  }
+
+  /* Acessibilidade de foco via teclado sem poluir cliques de mouse (Front #6) */
+  .nav-btn:focus-visible,
+  .btn:focus-visible,
+  .step-btn:focus-visible,
+  .seg-tab:focus-visible,
+  .brand-pill:focus-visible,
+  .popover-trigger:focus-visible,
+  .device-select-btn:focus-visible,
+  .toggle-switch:focus-visible,
+  .range-slider:focus-visible,
+  .select-modern:focus-visible,
+  .input-mac:focus-visible,
+  .autoeq-input:focus-visible,
+  .preset-card:focus-visible,
+  .autoeq-card:focus-visible,
+  .nc-card:focus-visible,
+  .spatial-mode-card:focus-visible {
+    outline: 2px solid rgba(0, 229, 255, 0.82);
+    outline-offset: 2px;
+  }
+
+  /* Tooltip ancorado na origem (animate RECIPES.md) */
+  .nav-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 58px;
+    background: rgba(22, 27, 40, 0.96);
+    backdrop-filter: blur(16px);
+    color: var(--text-primary);
+    border: 1px solid var(--border-specular);
+    padding: 5px 10px;
+    border-radius: 7px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform-origin: left center;
+    transform: scale(0.95) translateX(-4px);
+    pointer-events: none;
+    transition:
+      opacity 125ms var(--ease-out),
+      transform 125ms var(--ease-out);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    z-index: 100;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav-btn:hover:not(.active) {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.045);
+    }
+    .nav-btn:hover::after {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+  }
+
+  .nav-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* ==========================================================================
+     PALCO PRINCIPAL (FULL HEIGHT — SEM RODAPÉ REDUNDANTE)
+     ========================================================================== */
+  .main-stage {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px 18px 22px;
+    gap: 14px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* TOP BAR: Modelo, Telemetria, Status e Sincronização */
+  .top-header {
+    position: relative;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-surface);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid var(--border-specular);
+    border-radius: 14px;
+    padding: 10px 18px;
+    flex-shrink: 0;
+  }
+
+  .device-identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 105;
+  }
+
+  .sony-pill {
+    background: rgba(197, 160, 89, 0.13);
+    border: 1px solid rgba(197, 160, 89, 0.38);
+    color: var(--sony-copper-bright);
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .telemetry-chips {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: 6px;
+  }
+
+  .chip {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-hairline);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.73rem;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  .chip strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 13px;
+    border-radius: 20px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    font-size: 0.77rem;
+    font-weight: 600;
+    color: #34d399;
+    white-space: nowrap;
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+
+  .status-pill.disconnected {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.28);
+    color: #f87171;
+  }
+
+  .status-dot {
+    width: 7.5px;
+    height: 7.5px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+  }
+
+  .btn {
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid var(--border-specular);
+    color: var(--text-primary);
+    padding: 7px 13px;
+    border-radius: 9px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition:
+      transform 140ms var(--ease-out),
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #00d2eb, #0099bd);
+    border-color: rgba(0, 229, 255, 0.5);
+    color: #031014;
+    font-weight: 700;
+  }
+
+  .btn-copper {
+    background: linear-gradient(180deg, #d8b467, #ad863b);
+    border-color: rgba(229, 193, 120, 0.55);
+    color: #110d05;
+    font-weight: 700;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(180deg, #24ecff, #00add4);
+    }
+    .btn-copper:hover {
+      background: linear-gradient(180deg, #e5c178, #bd9548);
+    }
+  }
+
+  /* ==========================================================================
+     HERO HARDWARE DECK (NANO BANANA PAR SIMÉTRICO L & R + ESTOJO DO FONE)
+     ========================================================================== */
+  .hero-deck {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hw-card {
+    background: var(--bg-surface);
+    backdrop-filter: blur(22px) saturate(170%);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid var(--border-specular);
+    border-radius: 14px;
+    padding: 10px clamp(8px, 1.3vw, 14px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    gap: 6px;
+    min-width: 0;
+    transition: transform 160ms var(--ease-out), border-color 200ms ease;
+  }
+
+  .hw-visual {
+    position: relative;
+    width: clamp(54px, 6vw, 76px);
+    height: clamp(54px, 5.8vw, 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .hw-glow {
+    position: absolute;
+    width: clamp(48px, 5.2vw, 64px);
+    height: clamp(48px, 5.2vw, 64px);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.26) 0%, transparent 72%);
+    pointer-events: none;
+  }
+
+  .hw-visual img {
+    max-width: clamp(52px, 5.6vw, 72px);
+    max-height: clamp(50px, 5.4vw, 68px);
+    object-fit: contain;
+    z-index: 2;
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.65));
+  }
+
+  .hw-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    padding: 0 4px;
+    min-width: 0;
+  }
+
+  .hw-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .channel-badge {
+    font-size: 0.66rem;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.09);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    flex-shrink: 0;
+  }
+  .channel-badge.right {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.38);
+  }
+  .channel-badge.case {
+    background: rgba(197, 160, 89, 0.18);
+    color: var(--sony-copper-bright);
+    border-color: rgba(197, 160, 89, 0.38);
+  }
+
+  .hw-name {
+    font-size: clamp(0.78rem, 0.88vw, 0.85rem);
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hw-sub {
+    font-size: clamp(0.66rem, 0.72vw, 0.72rem);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ring-gauge {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ring-gauge svg {
+    width: 48px;
+    height: 48px;
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.07);
+    stroke-width: 4.2;
+  }
+
+  .ring-fill {
+    fill: none;
+    stroke: var(--emerald);
+    stroke-width: 4.2;
+    stroke-linecap: round;
+    stroke-dasharray: 144.5;
+    stroke-dashoffset: 144.5;
+  }
+
+  .ring-label {
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* ==========================================================================
+     PAINÉIS DE NAVEGAÇÃO (VIEWPORT COM TRANSIÇÃO SCALE + OPACITY)
+     ========================================================================== */
+  .view-container {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+  }
+
+  .view-pane {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    gap: 14px;
+    opacity: 0;
+    transform: scale(0.985) translateY(5px);
+    pointer-events: none;
+    transition:
+      opacity 180ms var(--ease-out),
+      transform 180ms var(--ease-out);
+  }
+
+  .view-pane.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+
+  .view-pane.instant-switch {
+    transition-duration: 0ms !important;
+  }
+
+  /* ==========================================================================
+     VIEW 1: ACOUSTICS & EQUALIZER (RESPONSIVO 1:1 SEM DISTORÇÃO!)
+     ========================================================================== */
+  .eq-layout {
+    grid-template-columns: 1fr 315px;
+    height: 100%;
+  }
+
+  .panel-card {
+    background: var(--bg-surface);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid var(--border-specular);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  /* Custom Popover Dropdown (animate RECIPES.md: scale(0.95) -> scale(1) from trigger) */
+  .popover-wrap {
+    position: relative;
+    z-index: 110;
+  }
+  .popover-wrap.active,
+  .popover-wrap:focus-within {
+    z-index: 120;
+  }
+
+  .popover-trigger {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-specular);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 9px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: transform 140ms var(--ease-out), background-color 150ms ease;
+  }
+
+  .popover-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 210px;
+    max-height: 290px;
+    overflow-y: auto;
+    background: rgba(14, 18, 28, 0.98);
+    backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid var(--border-specular);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow:
+      0 22px 52px rgba(0, 0, 0, 0.88),
+      0 0 0 1px rgba(255, 255, 255, 0.12);
+    transform-origin: top right;
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+    pointer-events: none;
+    transition:
+      opacity 170ms var(--ease-out),
+      transform 170ms var(--ease-out);
+    z-index: 999;
+  }
+
+  #deviceSelectMenu {
+    width: 295px;
+    left: 0;
+    right: auto;
+    transform-origin: top left;
+  }
+
+  .popover-menu.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+
+  .popover-item {
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 0.77rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+
+  .popover-item:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text-primary);
+  }
+
+  .popover-item.selected {
+    background: rgba(0, 229, 255, 0.12);
+    color: var(--ghub-cyan);
+    font-weight: 600;
+  }
+
+  /* G HUB Interactive Frequency Graph — Flex 1 + Coordinate Space 1:1 (Zero Distorção!) */
+  .eq-graph-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 155px;
+    background: linear-gradient(180deg, rgba(10, 12, 18, 0.95) 0%, rgba(13, 16, 24, 0.95) 100%);
+    border: 1px solid var(--border-hairline);
+    border-radius: 12px;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .eq-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .eq-node {
+    cursor: grab;
+    transition: r 140ms var(--ease-out);
+  }
+  .eq-node:active {
+    cursor: grabbing;
+  }
+
+  .eq-guide-line {
+    stroke: rgba(255, 255, 255, 0.045);
+    stroke-width: 1;
+    stroke-dasharray: 2, 4;
+    transition: stroke 150ms ease, stroke-width 150ms ease;
+  }
+  .eq-guide-line.highlighted {
+    stroke: rgba(0, 229, 255, 0.35);
+    stroke-width: 1.5;
+  }
+
+  /* Faders numéricos sincronizados abaixo do gráfico */
+  .eq-bands-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .band-pill {
+    background: rgba(255, 255, 255, 0.028);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: border-color 150ms ease, background-color 150ms ease, transform 140ms var(--ease-out);
+  }
+
+  .band-pill.clear-bass {
+    background: rgba(197, 160, 89, 0.07);
+    border-color: rgba(197, 160, 89, 0.25);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .band-pill:hover {
+      border-color: rgba(0, 229, 255, 0.35);
+      background: rgba(255, 255, 255, 0.045);
+    }
+    .band-pill.clear-bass:hover {
+      border-color: rgba(229, 193, 120, 0.5);
+    }
+  }
+
+  .band-val {
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: var(--ghub-cyan);
+  }
+
+  .band-pill.clear-bass .band-val {
+    color: var(--sony-copper-bright);
+  }
+
+  .band-step-btns {
+    display: flex;
+    gap: 4px;
+  }
+
+  .step-btn {
+    width: 24px;
+    height: 22px;
+    border-radius: 6px;
+    border: 1px solid var(--border-hairline);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: transform 120ms var(--ease-out), background-color 120ms ease;
+  }
+  .step-btn:active {
+    transform: scale(0.9);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .step-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+  }
+
+  /* Coluna Direita de Presets G HUB */
+  .preset-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 2px;
+  }
+
+  .preset-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+    padding: 9px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition:
+      transform 140ms var(--ease-out),
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .preset-card.active {
+    background: rgba(0, 229, 255, 0.12) !important;
+    border-color: var(--ghub-cyan) !important;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.22);
+  }
+
+  .preset-card.audiophile {
+    border-color: rgba(197, 160, 89, 0.38);
+    background: linear-gradient(90deg, rgba(197, 160, 89, 0.13), rgba(197, 160, 89, 0.03));
+  }
+
+  .preset-card.audiophile.active {
+    background: linear-gradient(90deg, rgba(197, 160, 89, 0.26), rgba(0, 229, 255, 0.12)) !important;
+    border-color: var(--sony-copper-bright) !important;
+    box-shadow: 0 0 18px rgba(197, 160, 89, 0.3);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .preset-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-specular);
+    }
+  }
+
+  .preset-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .preset-desc {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+  }
+
+  /* Segmented Controls no estilo Apple HIG */
+  .panel-segmented-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .seg-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: inherit;
+    padding: 5px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+    text-align: center;
+  }
+
+  .seg-tab.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .autoeq-panel {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .autoeq-panel.active {
+    display: flex;
+  }
+
+  .autoeq-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .autoeq-search-wrap svg {
+    position: absolute;
+    left: 9px;
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .autoeq-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 6px 28px 6px 28px;
+    font-size: 0.74rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .autoeq-input:focus {
+    border-color: var(--sony-copper-bright);
+    box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.2);
+  }
+
+  .autoeq-clear-btn {
+    position: absolute;
+    right: 7px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.72rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+
+  .autoeq-brand-pills {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+  }
+  .autoeq-brand-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .brand-pill {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-hairline);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 130ms ease,
+      border-color 130ms ease,
+      color 130ms ease,
+      transform 120ms var(--ease-out);
+  }
+
+  .brand-pill.active {
+    background: rgba(197, 160, 89, 0.16);
+    border-color: rgba(197, 160, 89, 0.5);
+    color: var(--sony-copper-bright);
+  }
+
+  .autoeq-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-right: 3px;
+  }
+
+  @keyframes autoeqCardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(-5px) scale(0.99);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .autoeq-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 9px 11px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: autoeqCardEnter 160ms var(--ease-out);
+    transition: transform 140ms var(--ease-out), background-color 150ms ease, border-color 150ms ease;
+  }
+
+  .autoeq-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(197, 160, 89, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .autoeq-card.active {
+    background: rgba(197, 160, 89, 0.1);
+    border-color: var(--sony-copper-bright);
+  }
+
+  .autoeq-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .autoeq-phone-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.25;
+  }
+
+  .autoeq-target-badge {
+    font-size: 0.60rem;
+    font-weight: 700;
+    color: var(--sony-copper-bright);
+    background: rgba(197, 160, 89, 0.14);
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .autoeq-bands-preview {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: var(--ghub-cyan);
+    letter-spacing: -0.01em;
+  }
+
+  .autoeq-desc {
+    font-size: 0.66rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ==========================================================================
+     VIEW 2: NOISE CONTROL (ÍCONES ACÚSTICOS VETORIAIS ESTILO APPLE / SONY)
+     ========================================================================== */
+  .nc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .nc-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-hairline);
+    border-top: 1px solid var(--border-specular);
+    border-radius: 12px;
+    padding: 16px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition:
+      transform 150ms var(--ease-out),
+      background-color 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .nc-card.active {
+    background: rgba(0, 229, 255, 0.095);
+    border-color: var(--ghub-cyan);
+    box-shadow: 0 8px 28px rgba(0, 229, 255, 0.1);
+  }
+
+  .nc-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid var(--border-hairline);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .nc-card.active .nc-icon {
+    color: var(--ghub-cyan);
+    background: rgba(0, 229, 255, 0.14);
+    border-color: rgba(0, 229, 255, 0.35);
+  }
+
+  .nc-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.9;
+  }
+
+  .asm-scrubber-box {
+    background: rgba(0, 0, 0, 0.26);
+    border: 1px solid var(--border-hairline);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition:
+      opacity 180ms var(--ease-out),
+      filter 180ms var(--ease-out),
+      transform 180ms var(--ease-out);
+  }
+
+  .asm-scrubber-box.inactive {
+    opacity: 0.38;
+    filter: grayscale(0.75);
+    pointer-events: none;
+    transform: scale(0.995);
+  }
+
+  .range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: var(--ghub-cyan);
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 10px var(--ghub-cyan);
+    cursor: grab;
+    transition: transform 120ms var(--ease-out);
+  }
+  .range-slider::-webkit-slider-thumb:active {
+    transform: scale(1.18);
+    cursor: grabbing;
+  }
+
+  /* ==========================================================================
+     VIEW 3: HARDWARE, TOUCH & HOLD-TO-CONFIRM POWER OFF
+     ========================================================================== */
+  .two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    height: 100%;
+  }
+
+  .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+  }
+  .setting-row:last-child {
+    border-bottom: none;
+  }
+
+  .select-modern {
+    background: #131722;
+    color: var(--text-primary);
+    border: 1px solid var(--border-specular);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.77rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .input-mac {
+    background: #0f121b;
+    color: var(--ghub-cyan);
+    border: 1px solid var(--border-specular);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: Consolas, monospace;
+    font-size: 0.79rem;
+    width: 150px;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 42px;
+    height: 23px;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 180ms var(--ease-out);
+  }
+  .toggle-switch.on {
+    background: var(--ghub-cyan);
+  }
+  .toggle-knob {
+    position: absolute;
+    top: 2.5px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: transform 180ms var(--ease-out);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
+  .toggle-switch.on .toggle-knob {
+    transform: translateX(18px);
+  }
+
+  .btn-hold-danger {
+    position: relative;
+    overflow: hidden;
+    background: rgba(239, 68, 68, 0.11);
+    border: 1px solid rgba(239, 68, 68, 0.42);
+    color: #fca5a5;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 0.79rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .btn-hold-danger .hold-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #dc2626, #b91c1c);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 200ms var(--ease-out);
+    z-index: 1;
+  }
+
+  .btn-hold-danger.holding .hold-overlay {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 1.4s linear;
+  }
+
+  .btn-hold-danger span {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ==========================================================================
+     VIEW 4: WINDOWS 11 AUDIO SHIELD
+     ========================================================================== */
+  .shield-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .shield-badge-card {
+    background: rgba(16, 185, 129, 0.055);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* ==========================================================================
+     SELETOR DE FONES UNIVERSAL NO CABEÇALHO (MULTI-HEADSET HUB)
+     ========================================================================== */
+  #deviceSelectMenu {
+    transform-origin: top left;
+  }
+  .device-select-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-specular);
+    border-radius: 9px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: inherit;
+    color: #f8fafc;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease,
+      transform 120ms var(--ease-out);
+  }
+  .device-select-btn h1,
+  #modelTitle {
+    color: #ffffff !important;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+  .device-select-btn svg {
+    color: var(--text-secondary);
+    transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), color 150ms ease;
+  }
+  .device-select-btn:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .device-select-btn:hover #modelTitle {
+    color: #ffffff !important;
+  }
+  .device-select-btn:hover svg {
+    color: #ffffff;
+  }
+  .popover-wrap.active .device-select-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--ghub-cyan);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.22);
+  }
+  .popover-wrap.active .device-select-btn svg {
+    transform: rotate(180deg);
+    color: var(--ghub-cyan);
+  }
+  .device-item-pill {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+  }
+
+  #view-shield {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: 100% !important;
+    padding-right: 6px;
+    padding-bottom: 24px;
+  }
+
+  #view-shield > .panel-card {
+    flex-shrink: 0 !important;
+    min-height: max-content !important;
+    height: auto !important;
+  }
+
+  /* ==========================================================================
+     VIEW 5: LABORATÓRIO ACÚSTICO: TESTE BIOMÉTRICO ISO 226 & ÁUDIO ESPACIAL 3D
+     ========================================================================== */
+  #view-spatial {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: 100% !important;
+    padding-right: 6px;
+    padding-bottom: 24px;
+    align-content: start;
+  }
+
+  .spatial-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    min-height: min-content;
+    height: auto;
+    align-items: start;
+  }
+
+  .hearing-test-box,
+  .spatial-stage-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .bio-profile-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--border-hairline);
+    border-radius: 9px;
+    padding: 6px 8px;
+    flex-shrink: 0;
+  }
+
+  .bio-input {
+    flex: 1;
+    min-width: 90px;
+    background: rgba(15, 18, 27, 0.9);
+    border: 1px solid var(--border-hairline);
+    border-radius: 7px;
+    padding: 5px 8px;
+    font-size: 0.73rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    outline: none;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .bio-input:focus {
+    border-color: var(--sony-copper-bright);
+  }
+
+  .bio-curve-box {
+    background: linear-gradient(180deg, rgba(8, 10, 16, 0.92) 0%, rgba(13, 17, 26, 0.92) 100%);
+    border: 1px solid var(--border-hairline);
+    border-radius: 10px;
+    padding: 7px 10px 6px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .bio-curve-legend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.64rem;
+    color: var(--text-muted);
+  }
+
+  .hearing-freq-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 9px 10px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border-hairline);
+    border-radius: 11px;
+  }
+
+  .hearing-freq-num {
+    font-size: 1.85rem;
+    font-weight: 800;
+    font-family: inherit;
+    color: var(--ghub-cyan);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+
+  .step-enter {
+    animation: stepFreqSlide 170ms var(--ease-out);
+  }
+
+  @keyframes stepFreqSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hearing-freq-unit {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .hearing-freq-tag {
+    font-size: 0.70rem;
+    font-weight: 600;
+    color: var(--sony-copper-bright);
+    margin-left: 8px;
+    background: rgba(197, 160, 89, 0.12);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .hearing-wave-visual {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hearing-wave-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hearing-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hearing-actions-row .btn-primary {
+    flex: 1;
+    padding: 9px;
+  }
+
+  .hearing-volume-control {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 3px 6px;
+  }
+
+  .hearing-response-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Espacialização 3D Gráfica */
+  .spatial-graphic {
+    position: relative;
+    height: 130px;
+    background: radial-gradient(circle at 50% 65%, rgba(0, 229, 255, 0.08) 0%, rgba(10, 13, 20, 0.8) 75%);
+    border: 1px solid var(--border-hairline);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .head-avatar {
+    position: relative;
+    font-size: 2.2rem;
+    z-index: 2;
+    transform: translateY(12px);
+  }
+
+  .sound-cone {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: -10px;
+    pointer-events: none;
+    opacity: 0.6;
+    animation: pulseSoundCone 2.2s infinite ease-out;
+  }
+
+  /* Pausa ondas infinitas da GPU quando a aba não está visível, espacial desligado ou janela oculta (0.0% GPU Standby) */
+  #view-spatial:not(.active) .sound-cone,
+  .spatial-stage-box.spatial-off .sound-cone,
+  body.page-hidden .sound-cone,
+  body.page-hidden .splash-ambient-halo {
+    animation-play-state: paused !important;
+  }
+  .spatial-stage-box.spatial-off .sound-cone {
+    opacity: 0 !important;
+  }
+
+  .sound-cone.left {
+    left: -20px;
+    border-left: 2px solid var(--ghub-cyan);
+  }
+
+  .sound-cone.right {
+    right: -20px;
+    border-right: 2px solid var(--ghub-cyan);
+  }
+
+  @keyframes pulseSoundCone {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+
+  .speaker-pod {
+    position: absolute;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-hairline);
+    color: var(--text-secondary);
+  }
+
+  .speaker-pod.left {
+    top: 20px;
+    left: 20px;
+    color: var(--ghub-cyan);
+    border-color: rgba(0, 229, 255, 0.3);
+  }
+
+  .speaker-pod.right {
+    top: 20px;
+    right: 20px;
+    color: var(--ghub-cyan);
+    border-color: rgba(0, 229, 255, 0.3);
+  }
+
+  .speaker-pod.center {
+    top: 14px;
+    color: var(--sony-copper-bright);
+    border-color: rgba(197, 160, 89, 0.35);
+  }
+
+  .spatial-mode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .spatial-mode-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border-hairline);
+    border-radius: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      transform 130ms var(--ease-out);
+  }
+
+  .hrtf-spec-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.66rem;
+    color: var(--text-secondary);
+    font-family: Consolas, monospace;
+    flex-shrink: 0;
+  }
+
+  .spatial-mode-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-specular);
+  }
+
+  .spatial-mode-card.active {
+    background: rgba(0, 229, 255, 0.09);
+    border-color: var(--ghub-cyan);
+  }
+
+  .sp-mode-icon {
+    font-size: 1.1rem;
+  }
+
+  .sp-mode-title {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .sp-mode-sub {
+    font-size: 0.63rem;
+    color: var(--text-muted);
+    line-height: 1.25;
+  }
+
+  /* ==========================================================================
+     VIEW 6: CONFIGURAÇÕES GERAIS, IDIOMAS & SISTEMA WINDOWS 11
+     ========================================================================== */
+  #view-settings {
+    overflow-y: auto;
+  }
+
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .lang-card-pill {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-hairline);
+    border-radius: 9px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition:
+      transform 140ms var(--ease-out),
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .lang-card-pill:hover {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: var(--border-specular);
+    transform: translateY(-1px);
+  }
+
+  .lang-card-pill:active {
+    transform: scale(0.97);
+  }
+
+  .lang-card-pill.active {
+    background: rgba(0, 229, 255, 0.12);
+    border-color: var(--ghub-cyan);
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.22);
+  }
+
+  .lang-flag {
+    font-size: 1.15rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .lang-name {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ==========================================================================
+     SONNER SYMMETRIC TOAST (SEM BARRA DE STATUS REDUNDANTE)
+     ========================================================================== */
+  .sonner-toast {
+    position: fixed;
+    bottom: 22px;
+    right: 24px;
+    background: rgba(20, 25, 38, 0.94);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 229, 255, 0.38);
+    border-radius: 12px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.79rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+    transition:
+      opacity 300ms var(--ease-out),
+      transform 300ms var(--ease-out);
+    z-index: 200;
+  }
+
+  .sonner-toast.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ==========================================================================
+     POP-UP ANIMADO DE BATERIA ESTILO APPLE IOS / DYNAMIC ISLAND NO WINDOWS 11
+     ========================================================================== */
+  .ios-popup-container {
+    display: none !important;
+    position: fixed;
+    bottom: 24px;
+    right: 28px;
+    z-index: 99998;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(32px) scale(0.92);
+    filter: blur(10px);
+    transition:
+      opacity 450ms var(--ease-out),
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 450ms var(--ease-out);
+    cursor: pointer;
+  }
+
+  .ios-popup-container.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    pointer-events: auto;
+  }
+
+  .ios-popup-card {
+    width: 360px;
+    background: rgba(14, 18, 27, 0.94);
+    backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(229, 193, 120, 0.45);
+    border-radius: 24px;
+    padding: 16px 18px 14px 18px;
+    box-shadow:
+      0 26px 54px -10px rgba(0, 0, 0, 0.85),
+      0 0 0 1px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ios-popup-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(229, 193, 120, 0.6), transparent);
+  }
+
+  .ios-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 8px;
+  }
+
+  .ios-popup-device-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .ios-popup-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 8px var(--emerald);
+  }
+
+  .ios-popup-close-hint {
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .ios-popup-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    align-items: center;
+  }
+
+  .ios-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 10px 6px 8px 6px;
+    transition: transform 140ms ease;
+  }
+
+  .ios-slot:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .ios-slot-image-wrapper {
+    width: 60px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ios-slot-image-wrapper img {
+    max-width: 54px;
+    max-height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.6));
+  }
+
+  .ios-slot-gauge {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ios-slot-gauge svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ios-ring-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 3.5;
+  }
+
+  .ios-ring-fill {
+    fill: none;
+    stroke: var(--emerald);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-dasharray: 113.1;
+    stroke-dashoffset: 113.1;
+    transition: stroke-dashoffset 800ms cubic-bezier(0.16, 1, 0.3, 1), stroke 300ms ease;
+  }
+
+  .ios-ring-text {
+    position: absolute;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--text-primary);
+  }
+
+  .ios-slot-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .view-pane,
+    .sonner-toast,
+    .ios-popup-container,
+    .splash-screen,
+    .nav-active-bar,
+    .btn,
+    .nav-btn,
+    .preset-card,
+    .autoeq-card,
+    .nc-card,
+    .spatial-mode-card,
+    .popover-menu {
+      transition: opacity 150ms ease !important;
+      transform: none !important;
+      filter: none !important;
+    }
+    .sound-cone,
+    .splash-ambient-halo,
+    .splash-icon-wrapper,
+    .splash-meta,
+    .step-enter,
+    .autoeq-card {
+      animation: none !important;
+    }
+  }
+
+  /* ==========================================================================
+     APPLE TV CINEMATIC INTRO SPLASH SCREEN ("Created by Matheus Veras")
+     ========================================================================== */
+  .splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: radial-gradient(ellipse at 50% 44%, #141720 0%, #060709 78%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    will-change: transform, opacity, filter;
+  }
+
+  .splash-ambient-halo {
+    position: absolute;
+    width: 456px;
+    height: 456px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.24) 0%, rgba(0, 229, 255, 0.12) 45%, transparent 72%);
+    filter: blur(56px);
+    pointer-events: none;
+    transform: translateY(-28px);
+    animation: splashHaloBreath 2.8s ease-in-out infinite alternate;
+  }
+
+  .splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transform: translateY(-24px); /* Um pouco acima do centro, conforme solicitado */
+  }
+
+  .splash-icon-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: splashIconAppear 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .splash-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 34px;
+    object-fit: cover;
+    box-shadow:
+      0 28px 60px -14px rgba(0, 0, 0, 0.88),
+      0 0 0 1.2px rgba(229, 193, 120, 0.42),
+      0 0 32px rgba(197, 160, 89, 0.22);
+  }
+
+  .splash-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: splashMetaAppear 720ms 140ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .splash-eyebrow {
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--sony-copper-bright);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.94;
+  }
+
+  .splash-title {
+    font-size: 1.78rem;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75);
+  }
+
+  .splash-skip-hint {
+    margin-top: 26px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    transition: opacity 200ms ease;
+  }
+
+  @keyframes splashIconAppear {
+    0% {
+      opacity: 0;
+      transform: scale(0.90) translateY(16px);
+      filter: blur(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes splashMetaAppear {
+    0% {
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes splashHaloBreath {
+    0% {
+      transform: translateY(-28px) scale(0.92);
+      opacity: 0.65;
+    }
+    100% {
+      transform: translateY(-28px) scale(1.08);
+      opacity: 0.95;
+    }
+  }
+
+  /* Dissolve e expansão cinematográfica estilo Apple TV */
+  .splash-screen.dismissing {
+    opacity: 0;
+    transform: scale(1.06);
+    filter: blur(14px);
+    pointer-events: none;
+    transition:
+      opacity 650ms var(--ease-out),
+      transform 700ms var(--ease-out),
+      filter 700ms var(--ease-out);
+  }
+
+  /* Revelação suave do aplicativo principal por baixo */
+  .app-revealing .nav-rail,
+  .app-revealing .main-stage {
+    animation: appRevealEnter 700ms 60ms var(--ease-out) both;
+  }
+
+  @keyframes appRevealEnter {
+    0% {
+      opacity: 0.45;
+      transform: scale(0.986);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+  }
+
+  /* ==========================================================================
+     UPGRADE MULTIMARCA: DOSÍMETRO dB SPL, MOTOR GLOBAL APO & AUTOMAÇÃO DE COMBOS
+     ========================================================================== */
+  .safety-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.69rem;
+    font-weight: 700;
+    border: 1px solid rgba(16, 185, 129, 0.32);
+    background: rgba(16, 185, 129, 0.10);
+    color: #34d399;
+    cursor: pointer;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 120ms var(--ease-out);
+  }
+  .safety-chip:active {
+    transform: scale(0.97);
+  }
+  .safety-chip.silent {
+    border-color: var(--border-hairline);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+  }
+  .safety-chip.moderate {
+    border-color: rgba(245, 158, 11, 0.38);
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+  }
+  .safety-chip.loud {
+    border-color: rgba(239, 68, 68, 0.48);
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+  }
+
+  /* Dosímetro Apple iOS Headphone Safety (View 5) — GPU scaleX (zero layout reflow) */
+  .safety-dosimeter-box {
+    background: rgba(0, 0, 0, 0.30);
+    border: 1px solid var(--border-hairline);
+    border-radius: 10px;
+    padding: 7px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .safety-dosimeter-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.71rem;
+  }
+  .safety-meter-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .safety-meter-fill {
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #10b981 0%, #00e5ff 68%, #f59e0b 86%, #ef4444 100%);
+    transform-origin: left center;
+    transform: scaleX(0.15);
+    transition: transform 240ms var(--ease-out);
+  }
+
+  /* Ponte DSP Global Windows 11 (Equalizer APO Card em View 4) */
+  .apo-bridge-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.07) 0%, rgba(197, 160, 89, 0.06) 100%);
+    border: 1px solid rgba(0, 229, 255, 0.24);
+    border-radius: 11px;
+    padding: 11px 14px;
+  }
+  .apo-status-pill {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.36);
+    color: #34d399;
+  }
+  .apo-status-pill.local {
+    background: rgba(197, 160, 89, 0.15);
+    border-color: rgba(197, 160, 89, 0.38);
+    color: var(--sony-copper-bright);
+  }
+
+  /* Editor Visual de Combos de Automação por Aplicativo (View 4) */
+  .automation-editor-box {
+    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.26);
+    border: 1px solid var(--border-hairline);
+    border-radius: 11px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .auto-rule-form {
+    display: grid;
+    grid-template-columns: 1.05fr 1.25fr 0.9fr 0.95fr auto;
+    gap: 7px;
+    align-items: center;
+  }
+  .auto-rule-input {
+    background: #111520;
+    color: var(--text-primary);
+    border: 1px solid var(--border-specular);
+    border-radius: 8px;
+    padding: 6px 9px;
+    font-size: 0.74rem;
+    font-family: Consolas, monospace;
+    outline: none;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .auto-rule-input:focus {
+    border-color: var(--ghub-cyan);
+  }
+  .auto-rule-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    max-height: 156px;
+    overflow-y: auto;
+    padding-right: 3px;
+  }
+  .auto-rule-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-hairline);
+    border-radius: 8px;
+    padding: 6px 9px;
+    transition: border-color 140ms ease, background-color 140ms ease;
+  }
+  .auto-rule-item:hover {
+    border-color: var(--border-specular);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .auto-rule-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .auto-tag {
+    font-size: 0.61rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(0, 229, 255, 0.11);
+    color: var(--ghub-cyan);
+  }
+  .auto-tag.nc {
+    background: rgba(197, 160, 89, 0.15);
+    color: var(--sony-copper-bright);
+  }
+  .auto-tag.sp {
+    background: rgba(16, 185, 129, 0.14);
+    color: #34d399;
+  }
+  .auto-del-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    border-radius: 6px;
+    padding: 3px 6px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    transition: color 130ms ease, background-color 130ms ease, transform 110ms var(--ease-out);
+  }
+  .auto-del-btn:hover {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.14);
+  }
+  .auto-del-btn:active {
+    transform: scale(0.94);
+  }

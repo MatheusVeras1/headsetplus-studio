@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<!--
+  Sony Sound Connect PC / Universal Audio Hub — Interface Modular Glassmorphism
+  Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sony | G HUB Studio — WF-1000XM3 Edition</title>
+  <link rel="stylesheet" href="ui/styles.css" />
+</head>
+<body>
+
+  <!-- SPLASH SCREEN CINEMATOGRÁFICO APPLE TV (CREATED BY MATHEUS VERAS) -->
+  <div id="splashScreen" class="splash-screen" onclick="dismissSplash()" title="Clique para continuar">
+    <div class="splash-ambient-halo"></div>
+    <div class="splash-content">
+      <div class="splash-icon-wrapper">
+        <img id="splashAppIcon" src="assets/app_icon_web.png" alt="Sony WF-1000XM3" class="splash-icon" />
+      </div>
+      <div class="splash-meta">
+        <span class="splash-eyebrow">SONY SOUND CONNECT PC</span>
+        <h1 class="splash-title">Created by Matheus Veras</h1>
+        <span class="splash-skip-hint">Pressione qualquer tecla ou clique para continuar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP ANIMADO DE BATERIA ESTILO APPLE IOS (IN-APP MODAL) -->
+  <div id="iosBatteryPopup" class="ios-popup-container" onclick="dismissIosBatteryPopup()" title="Clique para fechar o pop-up">
+    <div class="ios-popup-card" onclick="event.stopPropagation()">
+      <div class="ios-popup-header">
+        <div class="ios-popup-device-title">
+          <span class="ios-popup-dot"></span>
+          <span id="iosPopupTitle">WF-1000XM3</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="ios-popup-close-hint">ESC para fechar</span>
+          <button style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.95rem; line-height: 1; padding: 2px;" onclick="dismissIosBatteryPopup()" title="Fechar">✕</button>
+        </div>
+      </div>
+      <div class="ios-popup-grid">
+        <div class="ios-slot">
+          <div class="ios-slot-image-wrapper">
+            <img id="iosPopupImgL" src="assets/earbud_l_clean.png" alt="L" />
+          </div>
+          <div class="ios-slot-gauge">
+            <svg viewBox="0 0 44 44">
+              <circle class="ios-ring-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="ios-ring-fill" id="iosRingL" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="ios-ring-text" id="iosValL">--%</span>
+          </div>
+          <span class="ios-slot-label" data-i18n="hero.left_short">Esquerdo</span>
+          <span class="micro-label" id="iosChgL" style="color: var(--emerald); font-size: 0.60rem; min-height: 12px;"></span>
+        </div>
+
+        <div class="ios-slot">
+          <div class="ios-slot-image-wrapper">
+            <img id="iosPopupImgCase" src="assets/case_clean.png" alt="Case" />
+          </div>
+          <div class="ios-slot-gauge">
+            <svg viewBox="0 0 44 44">
+              <circle class="ios-ring-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="ios-ring-fill" id="iosRingCase" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="ios-ring-text" id="iosValCase">--%</span>
+          </div>
+          <span class="ios-slot-label" data-i18n="hero.case_short">Estojo</span>
+          <span class="micro-label" id="iosChgCase" style="color: var(--sony-copper-bright); font-size: 0.60rem; min-height: 12px;"></span>
+        </div>
+
+        <div class="ios-slot">
+          <div class="ios-slot-image-wrapper">
+            <img id="iosPopupImgR" src="assets/earbud_r_clean.png" alt="R" />
+          </div>
+          <div class="ios-slot-gauge">
+            <svg viewBox="0 0 44 44">
+              <circle class="ios-ring-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="ios-ring-fill" id="iosRingR" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="ios-ring-text" id="iosValR">--%</span>
+          </div>
+          <span class="ios-slot-label" data-i18n="hero.right_short">Direito</span>
+          <span class="micro-label" id="iosChgR" style="color: var(--emerald); font-size: 0.60rem; min-height: 12px;"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTAINER DE LAYOUT PRINCIPAL (GRID 72px 1fr) -->
+  <div class="app-layout" id="appLayout">
+    <!-- Camada GPU independente (0 filhos) para Halo LIGHTSYNC -->
+    <div class="ambient-halo-layer" id="ambientHaloLayer" aria-hidden="true"></div>
+
+    <!-- BARRA LATERAL VERTICAL -->
+    <aside class="nav-rail">
+      <div class="brand-crest" title="Sony | G HUB Studio (Clique para rever a introdução)" onclick="replaySplash()" style="cursor: pointer;">
+        <img id="imgBrandIcon" src="assets/app_icon_web.png" alt="Sony" />
+      </div>
+
+      <div class="nav-list">
+        <div class="nav-active-bar" id="navActiveBar"></div>
+
+        <button class="nav-btn active" data-view="eq" data-idx="0" data-tooltip="Equalizador & Acústica (1)" data-i18n-tooltip="nav.eq" onclick="switchView('eq', 0, false)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
+            <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
+            <line x1="1" y1="14" x2="7" y2="14"></line>
+            <line x1="9" y1="8" x2="15" y2="8"></line>
+            <line x1="17" y1="16" x2="23" y2="16"></line>
+          </svg>
+        </button>
+
+        <button class="nav-btn" data-view="nc" data-idx="1" data-tooltip="Cancelamento de Ruído & Ambiente (2)" data-i18n-tooltip="nav.nc" onclick="switchView('nc', 1, false)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 10v3"></path><path d="M6 6v11"></path><path d="M10 3v18"></path>
+            <path d="M14 8v7"></path><path d="M18 5v13"></path><path d="M22 10v3"></path>
+          </svg>
+        </button>
+
+        <button class="nav-btn" data-view="hw" data-idx="2" data-tooltip="Sensores Touch & Hardware (3)" data-i18n-tooltip="nav.hw" onclick="switchView('hw', 2, false)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+            <rect x="9" y="9" width="6" height="6"></rect>
+            <line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line>
+            <line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line>
+            <line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line>
+            <line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line>
+          </svg>
+        </button>
+
+        <button class="nav-btn" data-view="shield" data-idx="3" data-tooltip="DSP Global APO, Automação & Blindagem Windows 11 (4)" data-i18n-tooltip="nav.shield" onclick="switchView('shield', 3, false)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </button>
+
+        <button class="nav-btn" data-view="spatial" data-idx="4" data-tooltip="Laboratório Acústico: ISO 226, 3D Crossfeed & Dosímetro SPL (5)" data-i18n-tooltip="nav.spatial" onclick="switchView('spatial', 4, false)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+            <path d="M2 12h20"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="nav-footer">
+        <button class="nav-btn" data-view="settings" data-idx="5" data-tooltip="Configurações Gerais (6)" data-i18n-tooltip="nav.settings" onclick="switchView('settings', 5, false)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+
+        <button class="nav-btn" data-tooltip="Minimizar para a Bandeja (System Tray)" data-i18n-tooltip="nav.tray" onclick="minimizeToTray()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- PALCO PRINCIPAL -->
+    <main class="main-stage">
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div class="device-identity">
+          <span class="sony-pill" id="brandPill" data-i18n="header.brand">SONY AUDIO</span>
+          <div class="popover-wrap" id="deviceSelectWrap">
+            <button class="device-select-btn" onclick="toggleDeviceSelector(event)" title="Alternar driver e fone de ouvido conectado" data-i18n-title="header.device_select_title">
+              <h1 style="font-size: 1.02rem; margin: 0; font-weight: 700; color: #ffffff;" id="modelTitle">WF-1000XM3</h1>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="popover-menu" id="deviceSelectMenu"></div>
+          </div>
+          <div class="telemetry-chips">
+            <span class="chip">FW <strong id="fwBadge">v3.1.2</strong></span>
+            <span class="chip">Codec <strong id="codecBadge">AAC</strong></span>
+            <span class="chip">Modo <strong id="modeBadge">ANC</strong></span>
+            <button class="safety-chip silent tabular" id="safetyChip" onclick="switchView('spatial', 4, false)" title="Monitor de Saúde Auditiva dB SPL (CoreAudio OMS)" data-i18n-title="header.safety_chip_title">
+              <span>👂</span>
+              <span id="lblSafetyChip" data-i18n="header.safety_chip_ok">Silêncio • OMS OK</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn" id="btnDesktopOverlay" onclick="triggerNativeDesktopOverlay()" title="Testar Overlay Flutuante Nativo sobre o Desktop/Jogos Windows 11" data-i18n-title="header.overlay_btn_title">
+            <span data-i18n="header.overlay_btn">🪟 Overlay Win11</span>
+          </button>
+          <button class="btn" id="btnIosPopup" onclick="showIosBatteryPopup()" title="Visualizar Card Estilo Apple iOS" data-i18n-title="header.card_ios_title">
+            <span data-i18n="header.card_ios">📱 Card iOS</span>
+          </button>
+          <div class="status-pill disconnected" id="connPill">
+            <span class="status-dot"></span>
+            <span id="connText" data-i18n="header.disconnected">Desconectado</span>
+          </div>
+          <button class="btn btn-primary" id="btnSync" onclick="triggerReconnect()">
+            <span data-i18n="header.sync_btn">🔄 Sincronizar</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- HERO HARDWARE DECK -->
+      <section class="hero-deck">
+        <div class="hw-card">
+          <div class="hw-visual">
+            <div class="hw-glow"></div>
+            <img id="imgLeft" src="assets/earbud_l_clean.png" alt="Fone Esquerdo L" />
+          </div>
+          <div class="hw-info">
+            <div class="hw-title-row">
+              <span class="channel-badge">L</span>
+              <span class="hw-name" data-i18n="hero.left">Fone Esquerdo</span>
+            </div>
+            <span class="hw-sub" id="subLeft" data-i18n="hero.master">Canal Mestre RFCOMM</span>
+            <span class="micro-label" id="chgLeft" style="color: var(--emerald);"></span>
+          </div>
+          <div class="ring-gauge">
+            <svg viewBox="0 0 56 56">
+              <circle class="ring-bg" cx="28" cy="28" r="23"></circle>
+              <circle class="ring-fill" id="ringLeft" cx="28" cy="28" r="23"></circle>
+            </svg>
+            <span class="ring-label tabular" id="valLeft">--%</span>
+          </div>
+        </div>
+
+        <div class="hw-card">
+          <div class="hw-visual">
+            <div class="hw-glow" style="background: radial-gradient(circle, rgba(197, 160, 89, 0.34) 0%, transparent 72%);"></div>
+            <img id="imgCase" src="assets/case_clean.png" alt="Estojo do Fone" />
+          </div>
+          <div class="hw-info">
+            <div class="hw-title-row">
+              <span class="channel-badge case">CASE</span>
+              <span class="hw-name" data-i18n="hero.case">Estojo do Fone</span>
+            </div>
+            <span class="hw-sub" id="subCase" data-i18n="hero.case_charge">Carga da Bateria</span>
+            <span class="micro-label" id="chgCase" style="color: var(--emerald);"></span>
+          </div>
+          <div class="ring-gauge">
+            <svg viewBox="0 0 56 56">
+              <circle class="ring-bg" cx="28" cy="28" r="23"></circle>
+              <circle class="ring-fill" id="ringCase" cx="28" cy="28" r="23"></circle>
+            </svg>
+            <span class="ring-label tabular" id="valCase">--%</span>
+          </div>
+        </div>
+
+        <div class="hw-card">
+          <div class="hw-visual">
+            <div class="hw-glow"></div>
+            <img id="imgRight" src="assets/earbud_r_clean.png" alt="Fone Direito R" />
+          </div>
+          <div class="hw-info">
+            <div class="hw-title-row">
+              <span class="channel-badge right">R</span>
+              <span class="hw-name" data-i18n="hero.right">Fone Direito</span>
+            </div>
+            <span class="hw-sub" id="subRight" data-i18n="hero.sync">Sincronização True Wireless</span>
+            <span class="micro-label" id="chgRight" style="color: var(--emerald);"></span>
+          </div>
+          <div class="ring-gauge">
+            <svg viewBox="0 0 56 56">
+              <circle class="ring-bg" cx="28" cy="28" r="23"></circle>
+              <circle class="ring-fill" id="ringRight" cx="28" cy="28" r="23"></circle>
+            </svg>
+            <span class="ring-label tabular" id="valRight">--%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEWPORT CONTAINER -->
+      <div class="view-container">
+
+        <!-- ==================== VIEW 1: ACOUSTICS & EQUALIZER ==================== -->
+        <section class="view-pane eq-layout active" id="view-eq">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <span class="micro-label" data-i18n="eq.engine_title">MOTOR ACÚSTICO DSP DE 6 BANDAS</span>
+                <h2 class="section-title" style="font-size: 0.98rem;" data-i18n="eq.curve_title">Curva de Resposta em Frequência</h2>
+              </div>
+
+              <div style="display: flex; gap: 8px; align-items: center; flex-shrink: 0;">
+                <div class="popover-wrap" id="presetPopoverWrap">
+                  <button class="popover-trigger" onclick="togglePresetPopover(event)">
+                    <span id="lblActivePreset">Audiófilo (Comunidade)</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                  <div class="popover-menu" id="presetPopoverMenu"></div>
+                </div>
+                <button class="btn" onclick="resetEqFlat()" data-i18n="eq.reset_btn">⭕ Resetar 0 dB</button>
+              </div>
+            </div>
+
+            <div class="eq-graph-wrap" id="eqGraphBox">
+              <svg class="eq-svg" id="eqSvg">
+                <defs>
+                  <linearGradient id="eqAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.28" />
+                    <stop offset="100%" stop-color="#c5a059" stop-opacity="0.01" />
+                  </linearGradient>
+                  <linearGradient id="eqStrokeGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#e5c178" />
+                    <stop offset="22%" stop-color="#00e5ff" />
+                    <stop offset="100%" stop-color="#38bdf8" />
+                  </linearGradient>
+                </defs>
+                <g id="eqGridGroup"></g>
+                <path id="eqAreaPath" fill="url(#eqAreaGrad)" d="" />
+                <path id="eqCurvePath" fill="none" stroke="url(#eqStrokeGrad)" stroke-width="3" stroke-linecap="round" d="" />
+                <g id="eqNodesGroup"></g>
+              </svg>
+            </div>
+
+            <div class="eq-bands-row" id="eqBandsRow"></div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <span class="micro-label" id="lblSubTabCategory" data-i18n="eq.presets_title">DSP ACOUSTIC LIBRARY</span>
+                <h2 class="section-title" style="font-size: 0.94rem;" id="lblSubTabTitle" data-i18n="eq.presets_sub">Perfis & Presets</h2>
+              </div>
+              <button class="btn btn-copper" style="padding: 4px 9px; font-size: 0.72rem;" onclick="saveCurrentAsCustomProfile()" data-i18n="eq.save_btn">
+                💾 Salvar
+              </button>
+            </div>
+
+            <div class="panel-segmented-tabs">
+              <button class="seg-tab active" id="segBtnPresets" onclick="switchPresetSubTab('presets')" data-i18n="eq.tab_presets">⚡ Presets G HUB</button>
+              <button class="seg-tab" id="segBtnAutoEq" onclick="switchPresetSubTab('autoeq')" data-i18n="eq.tab_autoeq">🎯 AutoEq™ (+5.000)</button>
+            </div>
+
+            <div class="preset-list" id="presetLibraryList">
+              <div class="preset-card audiophile active" data-preset="Audiófilo (Comunidade)" onclick="applyQuickProfile('Audiófilo (Comunidade)', 3, [-1, 2, 4, 4, 2])">
+                <div>
+                  <div class="preset-name" data-i18n="eq.preset_audiophile_name">⭐ Audiófilo (Comunidade)</div>
+                  <div class="preset-desc" data-i18n="eq.preset_audiophile_desc">Clear Bass +3 • Palco & Detalhe Vocal</div>
+                </div>
+                <span class="micro-label" style="color: var(--sony-copper-bright);">TOP</span>
+              </div>
+
+              <div class="preset-card" data-preset="Empolgado (Meu Perfil)" onclick="applyQuickProfile('Empolgado (Meu Perfil)', 8, [-1, 1, 0, 3, 5])">
+                <div>
+                  <div class="preset-name" data-i18n="eq.preset_excited_name">🔥 Empolgado (Meu Perfil)</div>
+                  <div class="preset-desc" data-i18n="eq.preset_excited_desc">Clear Bass +8 • Graves Fortes & Brilho</div>
+                </div>
+                <span class="micro-label">V-SHAPE</span>
+              </div>
+
+              <div class="preset-card" data-preset="Gaming FPS (Passos)" onclick="applyQuickProfile('Gaming FPS (Passos)', -2, [0, 3, 6, 5, 2])">
+                <div>
+                  <div class="preset-name" data-i18n="eq.preset_fps_name">🎮 Gaming FPS (Passos)</div>
+                  <div class="preset-desc" data-i18n="eq.preset_fps_desc">Clear Bass -2 • Foco em Passos 2.5–6.3kHz</div>
+                </div>
+                <span class="micro-label">ESPORTS</span>
+              </div>
+
+              <div class="preset-card" data-preset="Voz & Podcast" onclick="applyQuickProfile('Voz & Podcast', -1, [-2, 4, 5, 2, 0])">
+                <div>
+                  <div class="preset-name" data-i18n="eq.preset_vocal_name">🎙️ Voz & Podcast</div>
+                  <div class="preset-desc" data-i18n="eq.preset_vocal_desc">Clear Bass -1 • Nitidez de Fala</div>
+                </div>
+                <span class="micro-label">VOCAL</span>
+              </div>
+
+              <div class="preset-card" data-preset="Cinema Sub-Bass" onclick="applyQuickProfile('Cinema Sub-Bass', 9, [3, 0, 1, 3, 4])">
+                <div>
+                  <div class="preset-name" data-i18n="eq.preset_bass_name">🎬 Cinema Sub-Bass</div>
+                  <div class="preset-desc" data-i18n="eq.preset_bass_desc">Clear Bass +9 • Impacto de Subgraves</div>
+                </div>
+                <span class="micro-label">BASS</span>
+              </div>
+            </div>
+
+            <div class="autoeq-panel" id="autoEqPanel">
+              <div class="autoeq-search-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" class="autoeq-input" id="inpAutoEqSearch" placeholder="Buscar modelo (Sony, AirPods, Buds...)" data-i18n-placeholder="eq.autoeq_placeholder" oninput="onAutoEqSearch(this.value)" />
+                <button class="autoeq-clear-btn" onclick="clearAutoEqSearch()" title="Limpar busca">✕</button>
+              </div>
+
+              <div class="autoeq-brand-pills" id="autoEqBrandPills">
+                <button class="brand-pill active" onclick="selectAutoEqBrand('all', this)" data-i18n="eq.autoeq_all">Todos</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Sony', this)">Sony</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Apple', this)">Apple</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Samsung', this)">Samsung</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Realme', this)">Realme</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Sennheiser', this)">Sennheiser</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Bose', this)">Bose</button>
+                <button class="brand-pill" onclick="selectAutoEqBrand('Logitech', this)">Gaming</button>
+              </div>
+
+              <div class="autoeq-results-list" id="autoEqResultsList"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 2: NOISE CONTROL (ANC / ASM) ==================== -->
+        <section class="view-pane" id="view-nc">
+          <div class="panel-card" style="justify-content: flex-start; gap: 16px;">
+            <div class="panel-header">
+              <div>
+                <span class="micro-label" data-i18n="nc.chip_label">PROCESSADOR HD DE CANCELAMENTO DE RUÍDO QN1e / V2</span>
+                <h2 class="section-title" style="font-size: 1.02rem;" data-i18n="nc.title">Controle Acústico de Ruído & Ambiente</h2>
+              </div>
+            </div>
+
+            <div class="nc-grid">
+              <div class="nc-card active" id="ncCard-ANC" onclick="selectNcMode('ANC')">
+                <div class="nc-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 10v3"></path><path d="M6 6v11"></path><path d="M10 3v18"></path>
+                    <path d="M14 8v7"></path><path d="M18 5v13"></path><path d="M22 10v3"></path>
+                  </svg>
+                </div>
+                <div style="font-weight: 700; font-size: 0.9rem;" data-i18n="nc.anc">Cancelamento (ANC)</div>
+                <div style="font-size: 0.74rem; color: var(--text-secondary);" data-i18n="nc.anc_desc">Isolamento acústico máximo por inversão de onda com microfones duplos.</div>
+              </div>
+
+              <div class="nc-card" id="ncCard-Vento" onclick="selectNcMode('Vento')">
+                <div class="nc-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                  </svg>
+                </div>
+                <div style="font-weight: 700; font-size: 0.9rem;" data-i18n="nc.wind">Redução de Vento</div>
+                <div style="font-size: 0.74rem; color: var(--text-secondary);" data-i18n="nc.wind_desc">Desativa o microfone frontal externo para eliminar ruído de vento.</div>
+              </div>
+
+              <div class="nc-card" id="ncCard-Ambiente" onclick="selectNcMode('Ambiente')">
+                <div class="nc-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="2"></circle>
+                    <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
+                  </svg>
+                </div>
+                <div style="font-weight: 700; font-size: 0.9rem;" data-i18n="nc.ambient">Som Ambiente</div>
+                <div style="font-size: 0.74rem; color: var(--text-secondary);" data-i18n="nc.ambient_desc">Modo transparência ajustável (Nível 1 a 20) com captação de voz.</div>
+              </div>
+
+              <div class="nc-card" id="ncCard-Desligado" onclick="selectNcMode('Desligado')">
+                <div class="nc-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <line x1="9" y1="15" x2="15" y2="9"></line>
+                  </svg>
+                </div>
+                <div style="font-weight: 700; font-size: 0.9rem;" data-i18n="nc.off">ANC Desligado</div>
+                <div style="font-size: 0.74rem; color: var(--text-secondary);" data-i18n="nc.off_desc">Isolamento passivo puro para máxima duração da bateria.</div>
+              </div>
+            </div>
+
+            <div class="asm-scrubber-box inactive">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <span class="micro-label" data-i18n="nc.asm_box">TRANSPARÊNCIA ACÚSTICA</span>
+                  <div style="font-weight: 700; font-size: 0.92rem;">
+                    <span data-i18n="nc.asm_level_prefix">Nível do Som Ambiente:</span> <span id="lblAsmVal" class="tabular" style="color: var(--ghub-cyan);">10</span> / 20
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 0.8rem; font-weight: 600;" data-i18n="nc.voice_focus">Foco na Voz Humana</span>
+                  <div class="toggle-switch" id="toggleVoiceFocus" tabindex="0" role="switch" aria-label="Foco na Voz Humana" onclick="toggleVoiceFocusClick()">
+                    <div class="toggle-knob"></div>
+                  </div>
+                </div>
+              </div>
+
+              <input type="range" min="1" max="20" value="10" class="range-slider" id="sliderAsm" oninput="onAsmSliderInput(this.value)" onchange="commitNcSettings()" />
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 3: HARDWARE, TOUCH & BLUETOOTH ==================== -->
+        <section class="view-pane two-col-grid" id="view-hw">
+          <div class="panel-card" style="justify-content: flex-start; gap: 10px;">
+            <div>
+              <span class="micro-label" data-i18n="hw.micro">PROCESSAMENTO INTERNO & SENSORES</span>
+              <h2 class="section-title" style="font-size: 0.98rem;" data-i18n="hw.title">Comportamento do Hardware</h2>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.conn_mode">Prioridade da Conexão Bluetooth</div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.conn_sub">Conexão Estável evita cortes entre L e R no Windows</div>
+              </div>
+              <select class="select-modern" id="cmbConnMode" onchange="onConnModeChange(this.value)">
+                <option value="Prioridade na Conexão Estável" data-i18n="hw.conn_stable">Conexão Estável</option>
+                <option value="Prioridade na Qualidade do Som" data-i18n="hw.conn_quality">Qualidade do Som</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.dsee">DSEE HX (Upscaling Digital)</div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.dsee_sub">Manter OFF poupa bateria e evita dessincronia L/R</div>
+              </div>
+              <div class="toggle-switch" id="swDsee" tabindex="0" role="switch" aria-label="DSEE HX" onclick="toggleDseeClick()">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.wearing">Pausar ao Retirar dos Ouvidos</div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.wearing_sub">Sensor infravermelho de proximidade</div>
+              </div>
+              <div class="toggle-switch" id="swWearing" tabindex="0" role="switch" aria-label="Pausar ao Retirar dos Ouvidos" onclick="toggleWearingClick()">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.auto_off">Desligamento Automático</div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.auto_off_sub">Evita que um lado desligue sozinho por falso-positivo</div>
+              </div>
+              <select class="select-modern" id="cmbAutoOff" onchange="onAutoOffChange(this.value)">
+                <option value="Não desligar" data-i18n="hw.auto_off_never">Não desligar</option>
+                <option value="Ao retirar dos ouvidos" data-i18n="hw.auto_off_remove">Ao retirar dos ouvidos</option>
+                <option value="Após 5 minutos" data-i18n="hw.auto_off_5m">Após 5 minutos</option>
+                <option value="Após 30 minutos" data-i18n="hw.auto_off_30m">Após 30 minutos</option>
+                <option value="Após 1 hora" data-i18n="hw.auto_off_1h">Após 1 hora</option>
+                <option value="Após 3 horas" data-i18n="hw.auto_off_3h">Após 3 horas</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.mock_title">🤖 Simulador Virtual (Mock Sem Fone)</div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.mock_desc">Emula telemetria RFCOMM completa sem hardware físico conectado</div>
+              </div>
+              <div class="toggle-switch" id="swMockMode" tabindex="0" role="switch" aria-label="Modo Simulador Virtual" onclick="toggleMockModeClick()">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card" style="justify-content: space-between;">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div>
+                <span class="micro-label" data-i18n="hw.touch_micro">MAPEAMENTO TOUCH & ENDEREÇO BLUETOOTH</span>
+                <h2 class="section-title" style="font-size: 0.98rem;" data-i18n="hw.touch_title">Sensores Touch & Pareamento</h2>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.touch_l">Painel Touch Esquerdo (L)</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.touch_l_sub">Toque no anel de cobre esquerdo</div>
+                </div>
+                <select class="select-modern" id="cmbTouchL" onchange="onTouchChange()">
+                  <option value="Controle de Som Ambiente">Controle de Som Ambiente</option>
+                  <option value="Controle de Volume">Controle de Volume</option>
+                  <option value="Controle de Reprodução">Controle de Reprodução</option>
+                  <option value="Assistente de Voz">Assistente de Voz</option>
+                  <option value="Google Assistant">Google Assistant</option>
+                  <option value="Amazon Alexa">Amazon Alexa</option>
+                  <option value="Nenhuma Função">Nenhuma Função</option>
+                </select>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.touch_r">Painel Touch Direito (R)</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.touch_r_sub">Toque no anel de cobre direito</div>
+                </div>
+                <select class="select-modern" id="cmbTouchR" onchange="onTouchChange()">
+                  <option value="Controle de Som Ambiente">Controle de Som Ambiente</option>
+                  <option value="Controle de Volume">Controle de Volume</option>
+                  <option value="Controle de Reprodução">Controle de Reprodução</option>
+                  <option value="Assistente de Voz">Assistente de Voz</option>
+                  <option value="Google Assistant">Google Assistant</option>
+                  <option value="Amazon Alexa">Amazon Alexa</option>
+                  <option value="Nenhuma Função">Nenhuma Função</option>
+                </select>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="hw.mac_title">Endereço MAC Bluetooth</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="hw.mac_sub">Auto-Connect Zero-Click via WM_DEVICECHANGE ativo</div>
+                </div>
+                <div style="display: flex; gap: 6px;">
+                  <input type="text" class="input-mac" id="inpMac" value="14:3F:A6:5D:DF:D5" />
+                  <button class="btn" style="padding: 6px 10px;" onclick="saveMacAddress()" data-i18n="hw.mac_save">Salvar</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; padding-top: 8px;">
+              <button
+                class="btn-hold-danger"
+                id="btnHoldPowerOff"
+                onpointerdown="startHoldPowerOff(event)"
+                onpointerup="cancelHoldPowerOff()"
+                onpointerleave="cancelHoldPowerOff()"
+                onpointercancel="cancelHoldPowerOff()"
+              >
+                <div class="hold-overlay"></div>
+                <span id="lblHoldPowerOff" data-i18n="hw.power_off">⏻ Segure 1.4s para Desligar os Fones</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 4: GLOBAL APO DSP, COMBO AUTOMATION & WINDOWS 11 SHIELD ==================== -->
+        <section class="view-pane" id="view-shield">
+          <!-- CARD 1: PONTE DSP GLOBAL WINDOWS 11 (EQUALIZER APO) + BLINDAGEM ANTI-ROBÓTICO -->
+          <div class="panel-card">
+            <div class="apo-bridge-bar">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
+                  <span style="font-weight: 700; font-size: 0.88rem; color: var(--text-primary);" data-i18n="shield.apo_title">🎛️ Motor DSP Global Windows 11 (Equalizer APO Bridge)</span>
+                  <span class="apo-status-pill" id="apoStatusPill" data-i18n="shield.apo_status">Script APO Ativo</span>
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" id="lblApoSubStatus" data-i18n="shield.apo_desc">
+                  Sincroniza Equalizador 6 Bandas, AutoEq e Crossfeed 3D Linkwitz com todo o áudio do PC (Spotify, Jogos, Navegador e qualquer marca de fone).
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                <button class="btn btn-copper" id="btnLinkApo" style="padding: 6px 11px; font-size: 0.72rem;" onclick="linkEqualizerApoClick()" data-i18n="shield.apo_link_btn">
+                  🔗 Vincular APO
+                </button>
+                <div class="toggle-switch on" id="swGlobalApo" tabindex="0" role="switch" aria-label="Motor DSP Global Windows 11" onclick="toggleGlobalApoSwitch()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <span class="micro-label" data-i18n="shield.shield_micro">ARQUITETURA DE PROTEÇÃO ACÚSTICA WINDOWS 11</span>
+              <h2 class="section-title" style="font-size: 0.96rem; margin-bottom: 10px;" data-i18n="shield.shield_title">
+                Blindagem Anti-Robótico & Auto-Conexão Zero-Click
+              </h2>
+
+              <div class="shield-grid">
+                <div class="shield-badge-card" style="padding: 9px 12px;">
+                  <div style="font-size: 1.2rem;">🎧</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.82rem; color: #34d399;" data-i18n="shield.card_a2dp_title">A2DP Estéreo Puro (44.1 / 48 kHz)</div>
+                    <div style="font-size: 0.71rem; color: var(--text-secondary);" data-i18n="shield.card_a2dp_desc">Canal de alta definição travado como padrão.</div>
+                  </div>
+                </div>
+
+                <div class="shield-badge-card" style="padding: 9px 12px;">
+                  <div style="font-size: 1.2rem;">🚫</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.82rem; color: #34d399;" data-i18n="shield.card_hfp_title">Hands-Free HFP Bloqueado</div>
+                    <div style="font-size: 0.71rem; color: var(--text-secondary);" data-i18n="shield.card_hfp_desc">Impede queda para mono 8 kHz no Discord/Jogos.</div>
+                  </div>
+                </div>
+
+                <div class="shield-badge-card" style="padding: 9px 12px;">
+                  <div style="font-size: 1.2rem;">⚡</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.82rem; color: #34d399;" data-i18n="shield.card_case_title">Zero-Click Case Open (WM_DEVICECHANGE)</div>
+                    <div style="font-size: 0.71rem; color: var(--text-secondary);" data-i18n="shield.card_case_desc">Conecta e abre o Overlay iOS ao retirar do estojo (0.0% CPU).</div>
+                  </div>
+                </div>
+
+                <div class="shield-badge-card" style="padding: 9px 12px;">
+                  <div style="font-size: 1.2rem;">🪟</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.82rem; color: #34d399;" data-i18n="shield.card_overlay_title">Overlay Nativo Sem Roubo de Foco</div>
+                    <div style="font-size: 0.71rem; color: var(--text-secondary);" data-i18n="shield.card_overlay_desc">Flutua sobre jogos em tela cheia/borderless via DWM.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-hairline); padding-top: 10px;">
+              <span style="font-size: 0.73rem; color: var(--text-secondary);">
+                ⌨️ Atalhos Globais: <strong style="color: var(--ghub-cyan);">Ctrl+Shift+A</strong> (ANC) • <strong style="color: var(--sony-copper-bright);">Ctrl+Shift+E</strong> (Ciclar EQ)
+              </span>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn" style="padding: 6px 10px; font-size: 0.73rem;" onclick="cycleBluetoothStack()" data-i18n="shield.reset_bt">🔄 Reiniciar BT</button>
+                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.73rem;" onclick="runWindowsShieldFix()" data-i18n="shield.reapply_shield">🔒 Reaplicar Blindagem Win11</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: EDITOR VISUAL DE AUTOMAÇÃO DE COMBOS POR APLICATIVO & SCANNER MULTIMARCA -->
+          <div class="panel-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="micro-label" data-i18n="shield.combos_micro">AUTOMAÇÃO INTELIGENTE POR PROCESSO (SETWINEVENTHOOK)</span>
+                <h2 class="section-title" style="font-size: 0.96rem;" data-i18n="shield.combos_title">Combos Automáticos por Aplicativo (EQ + ANC + Palco 3D)</h2>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button class="btn" style="padding: 5px 10px; font-size: 0.71rem;" onclick="scanPairedHeadsets()" data-i18n="shield.scan_btn">🔍 Escanear Fones BT</button>
+                <div class="toggle-switch on" id="swAutoProfile" tabindex="0" role="switch" aria-label="Troca Inteligente por Aplicativo" onclick="toggleAutoProfileSwitch()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="detectedHeadsetsList" style="display: none; margin-top: 8px; background: rgba(0,0,0,0.32); border-radius: 8px; padding: 9px; border: 1px solid var(--border-hairline);"></div>
+
+            <div class="automation-editor-box">
+              <div class="auto-rule-form">
+                <input type="text" class="auto-rule-input" id="inpAutoExe" placeholder="Processo (ex: cs2.exe)" data-i18n-placeholder="shield.exe_placeholder" />
+                <select class="select-modern" id="cmbAutoEq" style="padding: 6px 8px; font-size: 0.73rem;">
+                  <option value="Gaming FPS (Passos)">🎮 Gaming FPS (Passos)</option>
+                  <option value="Audiófilo (Comunidade)">⭐ Audiófilo (Harman)</option>
+                  <option value="Empolgado (Meu Perfil)">🔥 Empolgado (V-Shape)</option>
+                  <option value="Voz & Podcast">🎙️ Voz & Podcast</option>
+                  <option value="Cinema Sub-Bass">🎬 Cinema Sub-Bass</option>
+                </select>
+                <select class="select-modern" id="cmbAutoNc" style="padding: 6px 8px; font-size: 0.73rem;">
+                  <option value="ANC">🛡️ ANC Máximo</option>
+                  <option value="Ambiente">🍃 Ambiente + Voz</option>
+                  <option value="Vento">🌬️ Anti-Vento</option>
+                  <option value="Desligado">⭕ ANC Off</option>
+                  <option value="Manter">🔒 Manter Atual</option>
+                </select>
+                <select class="select-modern" id="cmbAutoSpatial" style="padding: 6px 8px; font-size: 0.73rem;">
+                  <option value="esports">🎯 3D Esports</option>
+                  <option value="hifi">🏛️ 3D Hi-Fi</option>
+                  <option value="nearfield">🎧 3D Estúdio</option>
+                  <option value="off">⏹️ 3D Off</option>
+                </select>
+                <div style="display: flex; gap: 5px;">
+                  <button class="btn btn-primary" style="padding: 6px 10px; font-size: 0.72rem;" onclick="saveAutomationRuleUI()" data-i18n="shield.rule_save_btn">➕ Salvar</button>
+                  <button class="btn" style="padding: 6px 8px; font-size: 0.71rem;" onclick="resetAutomationRulesUI()" title="Restaurar regras de fábrica">↺</button>
+                </div>
+              </div>
+
+              <div class="auto-rule-list" id="automationRulesList"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 5: SPATIAL AUDIO, ISO 226 LAB & HEARING SAFETY SPL ==================== -->
+        <section class="view-pane spatial-layout" id="view-spatial">
+          <!-- CARD 1: TESTE AUDITIVO BIOMÉTRICO (ISO 226:2023 / FLETCHER-MUNSON) -->
+          <div class="panel-card" style="justify-content: flex-start; gap: 10px;">
+            <div class="panel-header">
+              <div>
+                <span class="micro-label" data-i18n="spatial.bio_micro">MODELAGEM PSICOACÚSTICA ISO 226:2023</span>
+                <h2 class="section-title" style="font-size: 0.96rem;" data-i18n="spatial.bio_title">Teste Auditivo Biométrico</h2>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="chip tabular" id="lblHearingStep">Etapa 1 / 6</span>
+                <button class="btn" style="padding: 4px 8px; font-size: 0.70rem;" onclick="resetHearingTest()" title="Reiniciar calibração biométrica" data-i18n="spatial.redo_btn">↺ Refazer</button>
+              </div>
+            </div>
+
+            <div class="hearing-test-box">
+              <div class="bio-profile-bar">
+                <select class="select-modern" id="cmbBioProfiles" style="max-width: 165px; padding: 5px 7px; font-size: 0.72rem;" onchange="onSelectBioProfile(this.value)"></select>
+                <input type="text" class="bio-input" id="inpBioProfileName" placeholder="Nome (ex: Matheus Dia)" data-i18n-placeholder="spatial.bio_name_placeholder" />
+                <button class="btn btn-copper" style="padding: 5px 8px; font-size: 0.70rem;" onclick="saveBiometricProfileUI()" title="Salvar perfil biométrico">💾</button>
+                <button class="btn" style="padding: 5px 7px; font-size: 0.70rem;" onclick="deleteCurrentBioProfile()" title="Remover perfil selecionado">🗑️</button>
+              </div>
+
+              <div class="hearing-freq-display">
+                <span class="hearing-freq-num tabular" id="hearingFreqVal">250</span>
+                <span class="hearing-freq-unit">Hz</span>
+                <span class="hearing-freq-tag" id="hearingFreqTag">Graves de Ressonância (ISO +11.2 dB)</span>
+              </div>
+
+              <div class="hearing-actions-row">
+                <button class="btn btn-primary" id="btnPlayTone" onclick="playCurrentTestTone()">
+                  <span data-i18n="spatial.tone_play_btn">🔊 Tocar Tom Puro</span>
+                </button>
+                <div class="hearing-volume-control">
+                  <button class="step-btn" onclick="stepHearingVol(-2)" aria-label="Reduzir 2 dB">−</button>
+                  <span class="tabular" style="font-size: 0.80rem; font-weight: 700; min-width: 48px; text-align: center;" id="lblToneDb">-19 dB</span>
+                  <button class="step-btn" onclick="stepHearingVol(+2)" aria-label="Aumentar 2 dB">+</button>
+                </div>
+              </div>
+
+              <div class="hearing-response-buttons">
+                <button class="btn" onclick="submitHearingSample('inaudible')" style="flex: 1; font-size: 0.72rem; padding: 7px 6px;" data-i18n="spatial.btn_inaudible">❌ Inaudível (+4dB)</button>
+                <button class="btn" onclick="submitHearingSample('barely')" style="flex: 1; font-size: 0.72rem; padding: 7px 6px; border-color: rgba(197,160,89,0.45);" data-i18n="spatial.btn_barely">🔉 Limiar Exato</button>
+                <button class="btn btn-copper" onclick="submitHearingSample('clear')" style="flex: 1; font-size: 0.72rem; padding: 7px 6px;" data-i18n="spatial.btn_clear">✅ Claro e Nítido</button>
+              </div>
+
+              <div class="bio-curve-box">
+                <div class="bio-curve-legend">
+                  <span style="font-weight: 700; color: var(--text-secondary);" id="lblBioCurveTitle" data-i18n="spatial.bio_curve_title">Curva Biométrica vs Referência Plana (0 dB)</span>
+                  <span>
+                    <span style="color: rgba(255,255,255,0.45);">--- 0 dB Flat</span> •
+                    <span style="color: var(--ghub-cyan); font-weight: 700;">━ Compensação ISO 226</span>
+                  </span>
+                </div>
+                <svg viewBox="0 0 340 76" style="width: 100%; height: 74px; display: block;" id="bioCompareSvg">
+                  <defs>
+                    <linearGradient id="bioFillGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.24" />
+                      <stop offset="100%" stop-color="#c5a059" stop-opacity="0.02" />
+                    </linearGradient>
+                  </defs>
+                  <line x1="16" y1="38" x2="324" y2="38" stroke="rgba(255,255,255,0.28)" stroke-width="1.2" stroke-dasharray="4,4" />
+                  <path id="bioAreaPath" fill="url(#bioFillGrad)" d="" />
+                  <path id="bioCurvePath" fill="none" stroke="var(--ghub-cyan)" stroke-width="2.4" stroke-linecap="round" d="" />
+                  <g id="bioNodesGroup"></g>
+                </svg>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px;">
+                  <span style="font-size: 0.68rem; color: var(--text-secondary);" id="lblHearingSummary">
+                    Calibre seu ouvido ou aplique um perfil salvo diretamente no DSP.
+                  </span>
+                  <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.72rem; flex-shrink: 0;" onclick="applyBiometricCurveToEq()" data-i18n="spatial.apply_eq_btn">
+                    ⚡ Aplicar no EQ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: VIRTUALIZADOR 3D LINKWITZ + DOSÍMETRO DE SAÚDE AUDITIVA dB SPL -->
+          <div class="panel-card" style="justify-content: flex-start; gap: 8px;">
+            <div class="panel-header">
+              <div>
+                <span class="micro-label" data-i18n="spatial.stage_micro">TOPOLOGIA BIQUAD LINKWITZ / CHU-MOY & DOSÍMETRO OMS</span>
+                <h2 class="section-title" style="font-size: 0.96rem;" data-i18n="spatial.stage_title">Áudio Espacial 3D & Saúde Auditiva</h2>
+              </div>
+              <div class="toggle-switch on" id="swSpatialAudio" tabindex="0" role="switch" aria-label="Ativar Áudio Espacial 3D" onclick="toggleSpatialAudioEngine()">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+
+            <div class="spatial-stage-box" id="spatialStageBox">
+              <div class="spatial-graphic" style="height: 94px; flex-shrink: 0;">
+                <div class="head-avatar">
+                  <span>👤</span>
+                  <div class="sound-cone left" id="coneL"></div>
+                  <div class="sound-cone right" id="coneR"></div>
+                </div>
+                <div class="speaker-pod left tabular" id="podL">L (39°)</div>
+                <div class="speaker-pod center" id="podCenter">Phantom Center</div>
+                <div class="speaker-pod right tabular" id="podR">R (39°)</div>
+              </div>
+
+              <div class="hrtf-spec-strip" id="lblHrtfSpecs">
+                <span>LPF: <strong style="color: var(--ghub-cyan);">700 Hz</strong></span>
+                <span>Cross: <strong style="color: var(--sony-copper-bright);">-6.0 dB</strong></span>
+                <span>ITD Delay: <strong style="color: var(--emerald);">280 µs</strong></span>
+              </div>
+
+              <div class="spatial-mode-grid">
+                <div class="spatial-mode-card active" id="spMode-nearfield" tabindex="0" onclick="selectSpatialMode('nearfield')">
+                  <div class="sp-mode-icon">🎧</div>
+                  <div class="sp-mode-title" data-i18n="spatial.mode_nearfield_title">Estúdio Near-Field</div>
+                  <div class="sp-mode-sub" data-i18n="spatial.mode_nearfield_sub">700Hz • 280µs (60°)</div>
+                </div>
+
+                <div class="spatial-mode-card" id="spMode-hifi" tabindex="0" onclick="selectSpatialMode('hifi')">
+                  <div class="sp-mode-icon">🏛️</div>
+                  <div class="sp-mode-title" data-i18n="spatial.mode_hifi_title">Sala Acústica Hi-Fi</div>
+                  <div class="sp-mode-sub" data-i18n="spatial.mode_hifi_sub">620Hz • 340µs (72°)</div>
+                </div>
+
+                <div class="spatial-mode-card" id="spMode-esports" tabindex="0" onclick="selectSpatialMode('esports')">
+                  <div class="sp-mode-icon">🎯</div>
+                  <div class="sp-mode-title" data-i18n="spatial.mode_esports_title">Gaming 3D FPS</div>
+                  <div class="sp-mode-sub" data-i18n="spatial.mode_esports_sub">880Hz • 220µs (52°)</div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.73rem; margin-bottom: 4px;">
+                  <span style="font-weight: 600; color: var(--text-primary);" data-i18n="spatial.crossfeed_label">Abertura do Palco Estéreo (Crossfeed Matrix + APO)</span>
+                  <span class="tabular" style="font-weight: 700; color: var(--ghub-cyan);" id="lblCrossfeedVal">65%</span>
+                </div>
+                <input type="range" min="0" max="100" value="65" class="range-slider" id="sliderCrossfeed" oninput="onCrossfeedSlider(this.value)" />
+              </div>
+
+              <!-- Dosímetro Apple iOS Headphone Safety (CoreAudio COM Live) -->
+              <div class="safety-dosimeter-box">
+                <div class="safety-dosimeter-top">
+                  <span style="font-weight: 700; color: var(--text-primary);">👂 Pressão Sonora Estimada: <strong class="tabular" style="color: var(--ghub-cyan);" id="lblSafetySpl">34.0 dB SPL</strong></span>
+                  <span class="tabular" style="color: var(--text-secondary); font-size: 0.67rem;" id="lblSafetyDose">Dose OMS: 0.0%</span>
+                </div>
+                <div class="safety-meter-track">
+                  <div class="safety-meter-fill" id="safetyMeterFill"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.64rem; color: var(--text-muted);">
+                  <span id="lblSafetyZone">Silêncio • Monitor CoreAudio Ativo</span>
+                  <span>Limite OMS: 80 dB (8h/dia)</span>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-primary" id="btnSpatialDemo" style="flex: 1.35; font-size: 0.73rem; padding: 7px 10px;" onclick="playSpatialDemoAudio()">
+                  <span data-i18n="spatial.btn_demo_3d">✨ Ouvir Demo 3D Linkwitz</span>
+                </button>
+                <button class="btn" id="btnSpatialAB" style="flex: 1; font-size: 0.71rem; padding: 7px 8px;" onclick="toggleSpatialABComparison()" title="Alternar entre Crossfeed 3D Biquad e Estéreo Isolado">
+                  <span data-i18n="spatial.btn_ab">🔀 A/B: 3D HRTF ON</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 6: CONFIGURAÇÕES GERAIS & IDIOMAS ==================== -->
+        <section class="view-pane two-col-grid" id="view-settings">
+          <!-- CARD 1: IDIOMA & COMPORTAMENTO DO SISTEMA -->
+          <div class="panel-card" style="justify-content: flex-start; gap: 10px;">
+            <div>
+              <span class="micro-label" data-i18n="settings.micro">SISTEMA, IDIOMA & APARÊNCIA</span>
+              <h2 class="section-title" data-i18n="settings.title" style="font-size: 0.98rem;">Configurações Gerais & Personalização</h2>
+            </div>
+
+            <!-- SELETOR DE IDIOMAS MULTIPAÍSES -->
+            <div style="background: rgba(0,0,0,0.22); border: 1px solid var(--border-hairline); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.lang_title">Idioma do Aplicativo</span>
+                <span style="font-size: 0.68rem; color: var(--text-muted);" data-i18n="settings.official_langs">7 Idiomas Oficiais</span>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 8px;" data-i18n="settings.lang_desc">
+                Selecione o idioma de sua preferência para toda a interface do software.
+              </div>
+              <div class="lang-grid" id="langSelectorGrid">
+                <div class="lang-card-pill active" data-lang="pt-BR" onclick="setAppLanguage('pt-BR')">
+                  <span class="lang-flag">🇧🇷</span>
+                  <span class="lang-name">Português</span>
+                </div>
+                <div class="lang-card-pill" data-lang="en-US" onclick="setAppLanguage('en-US')">
+                  <span class="lang-flag">🇺🇸</span>
+                  <span class="lang-name">English</span>
+                </div>
+                <div class="lang-card-pill" data-lang="ja-JP" onclick="setAppLanguage('ja-JP')">
+                  <span class="lang-flag">🇯🇵</span>
+                  <span class="lang-name">日本語</span>
+                </div>
+                <div class="lang-card-pill" data-lang="es-ES" onclick="setAppLanguage('es-ES')">
+                  <span class="lang-flag">🇪🇸</span>
+                  <span class="lang-name">Español</span>
+                </div>
+                <div class="lang-card-pill" data-lang="de-DE" onclick="setAppLanguage('de-DE')">
+                  <span class="lang-flag">🇩🇪</span>
+                  <span class="lang-name">Deutsch</span>
+                </div>
+                <div class="lang-card-pill" data-lang="zh-CN" onclick="setAppLanguage('zh-CN')">
+                  <span class="lang-flag">🇨🇳</span>
+                  <span class="lang-name">简体中文</span>
+                </div>
+                <div class="lang-card-pill" data-lang="fr-FR" onclick="setAppLanguage('fr-FR')">
+                  <span class="lang-flag">🇫🇷</span>
+                  <span class="lang-name">Français</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMPORTAMENTO WINDOWS 11 -->
+            <div class="micro-label" data-i18n="settings.sys_title" style="margin-top: 10px; margin-bottom: 2px;">COMPORTAMENTO NO WINDOWS 11</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.startup">Iniciar com o Windows</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.startup_desc">Abre o driver silenciosamente na bandeja do sistema ao ligar o computador.</div>
+                </div>
+                <div class="toggle-switch" id="swStartup" tabindex="0" role="switch" aria-label="Iniciar com o Windows" onclick="toggleStartupClick()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.close_tray">Minimizar para a Bandeja ao Fechar</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.close_tray_desc">O botão 'X' oculta a janela na bandeja sem desconectar os fones.</div>
+                </div>
+                <div class="toggle-switch on" id="swCloseToTray" tabindex="0" role="switch" aria-label="Minimizar para a Bandeja ao Fechar" onclick="toggleCloseToTrayClick()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.accent_sync">Sincronizar Cor com o Windows 11</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.accent_desc">Aplica a cor de destaque real do seu tema do Windows aos halos e seletores.</div>
+                </div>
+                <div class="toggle-switch" id="swWinAccentSync" tabindex="0" role="switch" aria-label="Sincronizar Cor com o Windows 11" onclick="toggleWindowsAccentSync()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.overlay">Overlay Flutuante Nativo Estilo iOS</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.overlay_desc">Exibe o card translúcido de bateria na área de trabalho ao abrir o estojo.</div>
+                </div>
+                <div class="toggle-switch on" id="swOverlayPref" tabindex="0" role="switch" aria-label="Overlay Flutuante Nativo Estilo iOS" onclick="toggleOverlayPrefClick()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: ALERTAS, HALO LIGHTSYNC & SOBRE -->
+          <div class="panel-card" style="justify-content: flex-start; gap: 10px;">
+            <div>
+              <span class="micro-label" data-i18n="settings.alerts_micro">ALERTAS & SAÚDE AUDITIVA</span>
+              <h2 class="section-title" data-i18n="settings.alerts_title" style="font-size: 0.98rem;">Monitoramento & Notificações</h2>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.low_bat">Alerta de Bateria Baixa no Windows (< 20%)</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.low_bat_desc">Emite notificação nativa da Central de Ações quando um dos lados precisar de recarga.</div>
+                </div>
+                <div class="toggle-switch on" id="swLowBatToast" tabindex="0" role="switch" aria-label="Alerta de Bateria Baixa" onclick="toggleLowBatToastClick()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.spl_title">Dosímetro de Pressão Sonora OMS em Tempo Real</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.spl_desc">Mede continuamente o nível de decibéis (dB SPL) para prevenir fadiga auditiva.</div>
+                </div>
+                <div class="toggle-switch on" id="swSplDosimeter" tabindex="0" role="switch" aria-label="Dosímetro OMS" onclick="toggleSplDosimeterClick()">
+                  <div class="toggle-knob"></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-hairline); margin: 4px 0;"></div>
+
+            <!-- LIGHTSYNC INTRO REPLAY -->
+            <div style="background: rgba(0,0,0,0.22); border: 1px solid var(--border-hairline); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 600; font-size: 0.84rem;" data-i18n="settings.replay_splash">Rever Introdução Apple TV</div>
+                <div style="font-size: 0.72rem; color: var(--text-secondary);" data-i18n="settings.replay_desc">Reproduz a animação cinematográfica de inicialização com os créditos autorais.</div>
+              </div>
+              <button class="btn" style="padding: 6px 12px; font-size: 0.74rem;" onclick="replaySplash()" data-i18n="settings.replay_btn">
+                ▶️ Reproduzir
+              </button>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-hairline); margin: 4px 0;"></div>
+
+            <!-- CRÉDITOS & SOBRE -->
+            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.035), rgba(0,229,255,0.03)); border: 1px solid var(--border-hairline); border-radius: 10px; padding: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <img src="assets/app_icon_web.png" style="width: 28px; height: 28px; border-radius: 6px;" alt="Sony" />
+                <div>
+                  <div style="font-weight: 700; font-size: 0.84rem; color: var(--text-primary);">Sony Sound Connect PC</div>
+                  <div style="font-size: 0.68rem; color: var(--sony-copper-bright); font-weight: 600;">WF-1000XM3 Edition • Argon v3.2.0 Ultra Suite</div>
+                </div>
+              </div>
+              <div style="font-size: 0.71rem; color: var(--text-secondary); line-height: 1.5;">
+                <strong data-i18n="settings.author">Criador & Engenheiro:</strong> Matheus Veras<br>
+                <strong data-i18n="settings.license">Licença:</strong> <span data-i18n="settings.license_val">Proprietário com Código Aberto (Ver LICENSE.md)</span><br>
+                <strong>Engine:</strong> Equalizer APO Biquad 6-Band • Linkwitz 3D Crossfeed • Bluetooth RFCOMM MDR
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- TOAST SIMÉTRICO ESTILO SONNER -->
+  <div class="sonner-toast" id="sonnerToast">
+    <span id="toastIcon">✨</span>
+    <span id="toastText">Configuração aplicada</span>
+  </div>
+
+  <script src="ui/i18n.js"></script>
+  <script src="ui/eq_engine.js"></script>
+  <script src="ui/acoustic_lab.js"></script>
+  <script src="ui/app.js"></script>
+</body>
+</html>

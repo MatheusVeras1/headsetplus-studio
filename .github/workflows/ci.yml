@@ -1,0 +1,75 @@
+name: Sony Sound Connect PC — CI & Quality Gate
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-and-test:
+    name: 🛡️ Auditoria Master & Testes de Eficiência
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Clonar Repositório
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configurar Ambiente Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: 📦 Instalar Dependências do requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🔍 Verificação de Sintaxe de Todos os Módulos (.py / .pyw)
+        run: |
+          python -m compileall -q .
+
+      - name: 📡 Validação de Detecção Bluetooth Real (Anti-Falsos Positivos)
+        run: |
+          python -u scripts/verify_real_bluetooth_check.py
+
+      - name: 🧪 Execução da Suíte Master de Auditoria (6 Frentes)
+        run: |
+          python -u scripts/master_audit_and_test_suite.py
+
+  build-binary:
+    name: 📦 Build Automatizado do Executável Windows (.exe)
+    needs: audit-and-test
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Clonar Repositório
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configurar Ambiente Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: 📦 Instalar Dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🔨 Compilar SonySoundConnect.exe Standalone
+        run: |
+          python scripts/build_standalone_exe.py
+
+      - name: 🚀 Publicar Artefato do Executável para Download
+        uses: actions/upload-artifact@v4
+        with:
+          name: SonySoundConnect-Windows-x64
+          path: dist/SonySoundConnect.exe
+          if-no-files-found: error
+

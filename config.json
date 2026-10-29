@@ -1,0 +1,191 @@
+{
+  "mac_address": "14:3F:A6:5D:DF:D5",
+  "rfcomm_port": 9,
+  "active_model": "WF-1000XM3",
+  "active_brand": "Sony",
+  "active_protocol": "sony_mdr",
+  "auto_profiles_enabled": true,
+  "mock_mode": false,
+  "apo_enabled": true,
+  "spatial_enabled": true,
+  "spatial_mode": "nearfield",
+  "crossfeed_width": 65,
+  "active_eq_preset": "AutoEq: Sony WF-1000XM3",
+  "saved_custom_eq": {
+    "clear_bass": 3,
+    "bands": [
+      -1,
+      2,
+      4,
+      4,
+      2
+    ]
+  },
+  "biometric_profiles": [
+    {
+      "id": "matheus-dia",
+      "name": "Matheus Dia (ISO 226 Reference)",
+      "clear_bass": 2,
+      "bands": [
+        0,
+        1,
+        3,
+        2,
+        2
+      ],
+      "thresholds": [
+        -17,
+        -24,
+        -28,
+        -31,
+        -23,
+        -15
+      ]
+    },
+    {
+      "id": "matheus-noite",
+      "name": "Matheus Noite / Foco (Low-SPL)",
+      "clear_bass": 3,
+      "bands": [
+        1,
+        0,
+        2,
+        2,
+        3
+      ],
+      "thresholds": [
+        -15,
+        -23,
+        -28,
+        -30,
+        -22,
+        -13
+      ]
+    }
+  ],
+  "automation_rules": [
+    {
+      "exe": "cs2.exe",
+      "label": "Counter-Strike 2",
+      "icon": "🎮",
+      "eq_preset": "Gaming FPS (Passos)",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "esports"
+    },
+    {
+      "exe": "valorant.exe",
+      "label": "Valorant",
+      "icon": "🎮",
+      "eq_preset": "Gaming FPS (Passos)",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "esports"
+    },
+    {
+      "exe": "r5apex.exe",
+      "label": "Apex Legends",
+      "icon": "🎮",
+      "eq_preset": "Gaming FPS (Passos)",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "esports"
+    },
+    {
+      "exe": "cod.exe",
+      "label": "Call of Duty",
+      "icon": "🎮",
+      "eq_preset": "Gaming FPS (Passos)",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "esports"
+    },
+    {
+      "exe": "spotify.exe",
+      "label": "Spotify",
+      "icon": "🎵",
+      "eq_preset": "Audiófilo (Comunidade)",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "hifi"
+    },
+    {
+      "exe": "tidal.exe",
+      "label": "TIDAL HiFi",
+      "icon": "🎵",
+      "eq_preset": "Audiófilo (Comunidade)",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "hifi"
+    },
+    {
+      "exe": "discord.exe",
+      "label": "Discord (Voz + Transparência)",
+      "icon": "🎙️",
+      "eq_preset": "Voz & Podcast",
+      "nc_mode": "Ambiente",
+      "asm_level": 14,
+      "focus_voice": true,
+      "spatial_mode": "nearfield"
+    },
+    {
+      "exe": "teams.exe",
+      "label": "Microsoft Teams",
+      "icon": "🎙️",
+      "eq_preset": "Voz & Podcast",
+      "nc_mode": "Ambiente",
+      "asm_level": 13,
+      "focus_voice": true,
+      "spatial_mode": "nearfield"
+    },
+    {
+      "exe": "zoom.exe",
+      "label": "Zoom Meetings",
+      "icon": "🎙️",
+      "eq_preset": "Voz & Podcast",
+      "nc_mode": "Ambiente",
+      "asm_level": 13,
+      "focus_voice": true,
+      "spatial_mode": "nearfield"
+    },
+    {
+      "exe": "vlc.exe",
+      "label": "VLC Media Player",
+      "icon": "🎬",
+      "eq_preset": "Cinema Sub-Bass",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "hifi"
+    },
+    {
+      "exe": "netflix.exe",
+      "label": "Netflix",
+      "icon": "🎬",
+      "eq_preset": "Cinema Sub-Bass",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "hifi"
+    },
+    {
+      "exe": "stremio.exe",
+      "label": "Stremio",
+      "icon": "🎬",
+      "eq_preset": "Cinema Sub-Bass",
+      "nc_mode": "ANC",
+      "asm_level": 10,
+      "focus_voice": false,
+      "spatial_mode": "hifi"
+    }
+  ],
+  "language": "en-US",
+  "run_at_startup": false,
+  "close_to_tray": true
+}

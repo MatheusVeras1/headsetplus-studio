@@ -1,0 +1,24 @@
+# =====================================================================
+# Sony Sound Connect PC — Global Windows 11 DSP Engine
+# Created by Matheus Veras (Source-Available Proprietary — LICENSE.md)
+# Active Profile: Audiófilo
+# =====================================================================
+Preamp: -6.80 dB
+
+# --- 6-Band Parametric & Clear Bass Filter Bank ---
+Filter 1: ON LSC Fc 95 Hz Gain 8.0 dB Q 0.71
+Filter 2: ON PK Fc 400 Hz Gain 2.0 dB Q 1.35
+Filter 3: ON PK Fc 1000 Hz Gain -1.0 dB Q 1.41
+Filter 4: ON PK Fc 2500 Hz Gain 3.0 dB Q 1.41
+Filter 5: ON PK Fc 6300 Hz Gain 5.0 dB Q 1.45
+Filter 6: ON HSC Fc 12500 Hz Gain 2.0 dB Q 0.75
+
+# --- Linkwitz / Chu-Moy 3D Crossfeed Matrix (ESPORTS @ 75%) ---
+Copy: L_DIR=L R_DIR=R L_X=L R_X=R
+Channel: L_DIR R_DIR
+Filter 7: ON HSC Fc 720 Hz Gain 2.08 dB Q 0.71
+Channel: L_X R_X
+Filter 8: ON LPQ Fc 880 Hz Q 0.7071
+Delay: 0.22 ms
+Copy: L=0.8845*L_DIR+0.5274*R_X R=0.8845*R_DIR+0.5274*L_X
+Channel: all
