@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller / Build Artifacts
+build/
+dist/
+*.spec
+
+# Local Environment & Editor
+.vscode/
+.idea/
+.agents/
+scratch/
+ferramentas_comunidade/
+skills-lock.json
+*.swp
+*~
+
+# Temporary Configuration Files
+*.tmp
+*.log
+
