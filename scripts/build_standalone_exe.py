@@ -24,9 +24,9 @@ except Exception:
     pass
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENTRY_POINT = os.path.join(BASE_DIR, "sony_sound_connect_pc.pyw")
+ENTRY_POINT = os.path.join(BASE_DIR, "headsetplus_studio.pyw")
 ICON_PATH = os.path.join(BASE_DIR, "assets", "app_icon.ico")
-OUTPUT_NAME = "SonySoundConnect"
+OUTPUT_NAME = "HeadsetPlusStudio"
 
 
 def ensure_pyinstaller_installed() -> None:
@@ -56,7 +56,7 @@ def build_executable() -> bool:
     clean_previous_builds()
 
     print("=" * 80)
-    print("  SONY SOUND CONNECT PC — BUILD DE EXECUTÁVEL STANDALONE")
+    print("  HEADSETPLUS STUDIO — BUILD DE EXECUTÁVEL STANDALONE")
     print("  Created by Matheus Veras • Windows 11 Single-File Binary Builder")
     print("=" * 80)
 

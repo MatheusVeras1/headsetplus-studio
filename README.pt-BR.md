@@ -1,4 +1,4 @@
-# 🎧 Sony Sound Connect PC — G HUB Studio Edition
+# 🎧 HeadsetPlus Studio — Suíte Universal de Áudio para Windows 11
 
 > **Language / Idioma:** 🇺🇸 [English](README.md) | 🇧🇷 **Português (Brasil)**
 
@@ -8,9 +8,9 @@
 [![CI Quality Gate](https://img.shields.io/badge/CI%20Audit-100%25%20Aprovado-success?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
 [![Author](https://img.shields.io/badge/Criado%20Por-Matheus%20Veras-orange?style=for-the-badge)](LICENSE.md)
 
-> **Suíte de Controle Acústico Avançado, DSP Global para Windows 11, Áudio Espacial 3D e Telemetria em Tempo Real para Fones Sony e Ecossistema Multimarca.**
+> **Suíte Universal de Controle Acústico Avançado, DSP Global para Windows 11, Áudio Espacial 3D e Telemetria em Tempo Real para Fones Sony, AirPods, Galaxy Buds, Bose e Multimarca.**
 
-Desenvolvido por **Matheus Veras**, o **Sony Sound Connect PC** nasceu para preencher a lacuna deixada pela ausência de um software oficial da Sony para Windows. O projeto evoluiu para se tornar um centro de controle acústico de padrão industrial com arquitetura modular limpa, motor DSP de 64 bits, calibração audiophile com +5.000 fones e integração profunda com as APIs nativas do Windows 11.
+Desenvolvido e arquitetado por **Matheus Veras**, o **HeadsetPlus Studio** é a central de áudio universal definitiva para Windows 11. O aplicativo eleva qualquer fone de ouvido—seja Bluetooth, USB ou P2/3.5mm—com arquitetura limpa de padrão industrial, motor DSP paramétrico de 64 bits, calibração audiophile com +5.000 fones (AutoEq), overlay flutuante nativo e integração profunda com as APIs nativas do Windows 11.
 
 ---
 
@@ -22,9 +22,10 @@ Desenvolvido por **Matheus Veras**, o **Sony Sound Connect PC** nasceu para pree
 * **Internacionalização Nativa (7 Idiomas):** Suporte completo para Português (`pt-BR`), Inglês (`en-US`), Japonês (`ja-JP`), Espanhol (`es-ES`), Alemão (`de-DE`), Chinês (`zh-CN`) e Francês (`fr-FR`) com detecção automática do sistema.
 
 ### 🔄 2. Ecossistema Multimarca & Arquitetura de Plugins
+* **Detecção Inteligente:** Identifica automaticamente a marca e o modelo do fone conectado, seleciona o protocolo de driver adequado e adapta a interface instantaneamente.
 * **Sony MDR V1 Driver:** Protocolo Serial HPC (Porta RFCOMM 9) com suporte completo ao lendário **Sony WF-1000XM3** (ANC, Modo Vento, Som Ambiente, Clear Bass e controle de sensores).
-* **Sony Tandem V2 Driver:** Suporte aos modelos das famílias **WH-1000XM4**, **WF-1000XM4**, **WH-1000XM5** e **WF-1000XM5**.
-* **Universal Windows 11 Driver:** Controle de equalização e áudio espacial para **AirPods (Apple)**, **Galaxy Buds (Samsung)**, **Bose QC**, **realme Buds** e headsets USB/P2.
+* **Sony Tandem V2 Driver:** Suporte completo aos modelos **WH-1000XM4**, **WF-1000XM4**, **WH-1000XM5** e **WF-1000XM5**.
+* **Universal Windows 11 Driver:** Controle de equalização e áudio espacial para **AirPods (Apple)**, **Galaxy Buds (Samsung)**, **Bose QC**, **realme Buds** e qualquer headset gamer USB/P2.
 
 ### 🎛️ 3. Motor DSP Global Windows 11 (Equalizer APO Bridge)
 * **Filtros Paramétricos Biquad 64-bit:** Equalizador acústico de 6 bandas (Clear Bass + 400Hz, 1kHz, 2.5kHz, 6.3kHz, 16kHz) atuando diretamente no kernel de áudio (`AudioDG.exe`).
@@ -60,7 +61,7 @@ Desenvolvido por **Matheus Veras**, o **Sony Sound Connect PC** nasceu para pree
 O código foi projetado seguindo os princípios de **Engenharia de Software de Produção** e o **Princípio da Responsabilidade Única (SRP)**:
 
 ```
-sony-sound-connect-pc/
+headsetplus-studio/
 ├── app/                        # Pacote Central Modular da Aplicação
 │   ├── config.py               # Gerenciador de Configuração, Caminhos e Persistência Atômica
 │   ├── win32_utils.py          # Integrações Win32 de Baixo Nível (Mutex, Registro DWM, Ícone, Idioma)
@@ -81,7 +82,8 @@ sony-sound-connect-pc/
 ├── ui/                         # Assets Web do Frontend (HTML5, CSS3, JS Vanilla Modular)
 ├── assets/                     # Renders 3D em Alta Definição e Ícones Oficiais
 ├── .github/workflows/ci.yml    # Pipeline de CI/CD Automatizado no GitHub Actions
-├── sony_sound_connect_pc.pyw   # Ponto de Entrada Enxuto da Aplicação (~75 linhas)
+├── headsetplus_studio.pyw      # Ponto de Entrada Oficial Enxuto da Aplicação (~20 linhas)
+├── sony_sound_connect_pc.pyw   # Ponto de Entrada de Retrocompatibilidade
 ├── config.json                 # Arquivo de Preferências do Usuário (Persistência Atômica)
 └── LICENSE.md                  # Licença de Propriedade do Projeto
 ```
@@ -91,8 +93,8 @@ sony-sound-connect-pc/
 ## 🚀 Como Executar
 
 ### Opção 1: Executável Standalone Pronto (Sem Instalação)
-1. Acesse a aba [Releases](https://github.com/MatheusVeras1/sony-sound-connect-pc/releases).
-2. Baixe o arquivo **`SonySoundConnect-v1.0.0-Windows-Portable.zip`** ou o instalador **`SonySoundConnect-v1.0.0-Setup.exe`**.
+1. Acesse a aba [Releases](https://github.com/MatheusVeras1/headsetplus-studio/releases).
+2. Baixe o arquivo **`HeadsetPlus-Studio-v1.0.0-Windows-Portable.zip`** ou o instalador **`HeadsetPlus-Studio-v1.0.0-Setup.exe`**.
 3. Execute o programa dando dois cliques no executável.
 
 ### Opção 2: A Partir do Código Fonte (Desenvolvedores)
@@ -100,14 +102,14 @@ Certifique-se de ter o **Python 3.10+** instalado no Windows 11.
 
 ```powershell
 # 1. Clone o repositório
-git clone https://github.com/MatheusVeras1/sony-sound-connect-pc.git
-cd sony-sound-connect-pc
+git clone https://github.com/MatheusVeras1/headsetplus-studio.git
+cd headsetplus-studio
 
 # 2. Instale as dependências
 pip install -r requirements.txt
 
 # 3. Execute o aplicativo
-python sony_sound_connect_pc.pyw
+python headsetplus_studio.pyw
 ```
 
 ---
@@ -117,7 +119,7 @@ python sony_sound_connect_pc.pyw
 Você pode compilar o seu próprio binário `.exe` independente ou gerar os pacotes de distribuição com apenas um comando:
 
 ```powershell
-# Compilação do executável único (dist/SonySoundConnect.exe)
+# Compilação do executável único (dist/HeadsetPlusStudio.exe)
 python scripts/build_standalone_exe.py
 
 # Empacotamento do ZIP portátil e script de instalação (Inno Setup)

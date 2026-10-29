@@ -31,10 +31,10 @@ def acquire_single_instance_lock() -> bool:
         kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
         user32 = ctypes.WinDLL("user32", use_last_error=True)
         _single_instance_mutex = kernel32.CreateMutexW(
-            None, False, "Global\\SonySoundConnectPC_SingleInstance_Mutex"
+            None, False, "Global\\HeadsetPlusStudio_SingleInstance_Mutex"
         )
         if kernel32.GetLastError() == 183:  # ERROR_ALREADY_EXISTS
-            hwnd = user32.FindWindowW(None, "Sony | G HUB Studio — WF-1000XM3 Edition")
+            hwnd = user32.FindWindowW(None, "HeadsetPlus Studio") or user32.FindWindowW(None, "Sony | G HUB Studio — WF-1000XM3 Edition")
             if hwnd:
                 user32.ShowWindow(hwnd, 9)  # SW_RESTORE
                 user32.SetForegroundWindow(hwnd)
@@ -84,16 +84,17 @@ def set_windows_run_at_startup(enabled: bool) -> bool:
             0,
             winreg.KEY_SET_VALUE | winreg.KEY_QUERY_VALUE,
         )
-        app_name = "SonySoundConnectPC"
+        app_name = "HeadsetPlusStudio"
         if enabled:
             pyw_path = os.path.abspath(sys.argv[0])
             cmd = f'"{sys.executable}" "{pyw_path}"'
             winreg.SetValueEx(key, app_name, 0, winreg.REG_SZ, cmd)
         else:
-            try:
-                winreg.DeleteValue(key, app_name)
-            except FileNotFoundError:
-                pass
+            for old_n in ["HeadsetPlusStudio", "SonySoundConnectPC"]:
+                try:
+                    winreg.DeleteValue(key, old_n)
+                except FileNotFoundError:
+                    pass
         winreg.CloseKey(key)
         return True
     except Exception:
@@ -109,13 +110,15 @@ def get_windows_run_at_startup() -> bool:
             0,
             winreg.KEY_QUERY_VALUE,
         )
-        try:
-            val, _ = winreg.QueryValueEx(key, "SonySoundConnectPC")
-            winreg.CloseKey(key)
-            return bool(val)
-        except FileNotFoundError:
-            winreg.CloseKey(key)
-            return False
+        for app_name in ["HeadsetPlusStudio", "SonySoundConnectPC"]:
+            try:
+                val, _ = winreg.QueryValueEx(key, app_name)
+                winreg.CloseKey(key)
+                return bool(val)
+            except FileNotFoundError:
+                pass
+        winreg.CloseKey(key)
+        return False
     except Exception:
         return False
 

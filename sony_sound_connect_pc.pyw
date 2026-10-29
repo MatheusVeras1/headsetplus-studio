@@ -16,7 +16,7 @@ import ctypes
 import sys
 
 try:
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Sony.GHubStudio.WF1000XM3.App")
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("MatheusVeras.HeadsetPlusStudio.App")
 except Exception:
     pass
 

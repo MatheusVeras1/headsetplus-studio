@@ -89,7 +89,7 @@ def compute_battery_bucket(state: Dict[str, Any]) -> str:
 def format_tray_tooltip(state: Dict[str, Any]) -> str:
     """Formata tooltip rico (< 127 chars Win32 szTip) com telemetria em tempo real."""
     if not state.get("connected"):
-        return "Sony Sound Connect PC • Standby (Auto-Connect Ativo)"
+        return "HeadsetPlus Studio • Standby (Auto-Connect Ativo)"
     model = str(state.get("model") or "Headset")[:28]
     bl = int(state.get("bat_l") or 0)
     br = int(state.get("bat_r") or 0)
@@ -123,7 +123,7 @@ class SystemTrayManager:
 
             ctrl = self.controller
             menu = pystray.Menu(
-                item("🎧 Abrir Sony | G HUB Studio", lambda: ctrl.show_window_from_tray(), default=True),
+                item("🎧 Abrir HeadsetPlus Studio", lambda: ctrl.show_window_from_tray(), default=True),
                 item(
                     "🪟 Overlay Flutuante iOS (Desktop)",
                     lambda: ctrl.desktop_overlay.show(ctrl.client.state),
@@ -189,7 +189,7 @@ class SystemTrayManager:
         except Exception:
             pass
 
-    def notify(self, message: str, title: str = "Sony Sound Connect PC") -> None:
+    def notify(self, message: str, title: str = "HeadsetPlus Studio") -> None:
         """Emite notificação visual na área de notificação do Windows."""
         if self.tray_icon:
             try:

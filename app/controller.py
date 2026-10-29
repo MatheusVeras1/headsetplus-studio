@@ -181,10 +181,10 @@ class SonyGHubController:
             self.push_toast(msg, "🪫")
             self.desktop_overlay.show(st, hold_seconds=5.2)
             if self.tray_manager:
-                self.tray_manager.notify(msg, "Sony Sound Connect PC")
+                self.tray_manager.notify(msg, "HeadsetPlus Studio")
             elif self.tray_icon:
                 try:
-                    self.tray_icon.notify(msg, "Sony Sound Connect PC")
+                    self.tray_icon.notify(msg, "HeadsetPlus Studio")
                 except Exception:
                     pass
 
@@ -597,7 +597,7 @@ class SonyGHubController:
 
     def on_webview_loaded(self) -> None:
         self.ui_ready = True
-        apply_win32_window_icon("Sony | G HUB Studio — WF-1000XM3 Edition")
+        apply_win32_window_icon("HeadsetPlus Studio")
         assets = resolve_nano_asset_uris()
         try:
             assets_json = json.dumps(assets)
@@ -614,7 +614,7 @@ class SonyGHubController:
                 pass
         self.async_connect()
         try:
-            self.window.evaluate_js("window.startSplashTimer && window.startSplashTimer();")
+            self.window.evaluate_js(f"window.startSplashTimer && window.startSplashTimer();")
         except Exception:
             pass
         gc.collect()
@@ -627,7 +627,7 @@ class SonyGHubController:
         api = GHubApiBridge(self)
 
         self.window = webview.create_window(
-            title="Sony | G HUB Studio — WF-1000XM3 Edition",
+            title="HeadsetPlus Studio",
             url=UI_HTML_PATH,
             js_api=api,
             width=1060,
@@ -635,7 +635,7 @@ class SonyGHubController:
             min_size=(940, 640),
             background_color="#07080B",
         )
-        self.window.events.shown += lambda: apply_win32_window_icon("Sony | G HUB Studio — WF-1000XM3 Edition")
+        self.window.events.shown += lambda: apply_win32_window_icon("HeadsetPlus Studio")
         self.window.events.loaded += self.on_webview_loaded
         self.window.events.closing += self.on_window_closing
         try:
@@ -659,3 +659,7 @@ class SonyGHubController:
         # Se fechar para bandeja estiver desativado, encerra limpo e imediato
         threading.Thread(target=self.quit_app, name="FastQuitThread", daemon=True).start()
         return True
+
+
+# Alias oficial de compatibilidade
+HeadsetPlusStudioController = SonyGHubController

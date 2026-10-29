@@ -14,7 +14,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 sys.path.insert(0, os.path.abspath("."))
 
 print("=" * 80)
-print("  SONY SOUND CONNECT PC — SESSÃO MASTER DE AUDITORIA & TESTES DE EFICIÊNCIA")
+print("  HEADSETPLUS STUDIO — SESSÃO MASTER DE AUDITORIA & TESTES DE EFICIÊNCIA")
 print("  Created by Matheus Veras • Auditoria de Confiabilidade & Desempenho")
 print("=" * 80)
 

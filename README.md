@@ -1,4 +1,4 @@
-# 🎧 Sony Sound Connect PC — G HUB Studio Edition
+# 🎧 HeadsetPlus Studio — Universal Audio Companion
 
 > **Language / Idioma:** 🇺🇸 **English** | 🇧🇷 [Português (Brasil)](README.pt-BR.md)
 
@@ -8,23 +8,24 @@
 [![CI Quality Gate](https://img.shields.io/badge/CI%20Audit-100%25%20Passing-success?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
 [![Author](https://img.shields.io/badge/Created%20By-Matheus%20Veras-orange?style=for-the-badge)](LICENSE.md)
 
-> **Advanced Acoustic Control Suite, Windows 11 Global DSP Engine, 3D Spatial Audio, and Real-Time Telemetry for Sony & Multi-Brand Headsets.**
+> **Universal Acoustic Control Suite, Windows 11 Global DSP Engine, 3D Spatial Audio, and Real-Time Telemetry for Sony, AirPods, Galaxy Buds, Bose & Multi-Brand Headsets.**
 
-Created and engineered by **Matheus Veras**, **Sony Sound Connect PC** addresses the absence of an official Sony companion application for Windows. The project evolved into an industrial-grade acoustic control hub featuring clean Single Responsibility architecture, a 64-bit parametric DSP engine, audiophile AutoEq calibration curves (+5,000 models), and deep integration with native Windows 11 APIs.
+Created and engineered by **Matheus Veras**, **HeadsetPlus Studio** is the definitive universal audio companion for Windows 11. It supercharges any headset—whether Bluetooth, USB, or 3.5mm—with clean Single Responsibility architecture, a 64-bit parametric DSP engine, audiophile AutoEq calibration curves (+5,000 models), native floating desktop overlay, and deep integration with low-level Windows APIs.
 
 ---
 
 ## ✨ Key Features
 
 ### 💎 1. Obsidian Glassmorphism Studio UI (WebView2)
-* **Hi-Fi Design:** Modern interface inspired by Logitech G HUB and Windows 11 Mica / Fluent translucency.
+* **Hi-Fi Design:** Modern interface inspired by professional studio software and Windows 11 Mica / Fluent translucency.
 * **Interactive B-Spline Frequency Curve:** Real-time canvas-rendered frequency response visualization with interactive control nodes.
 * **Native Multi-Language Support (7 Languages):** Complete localization for English (`en-US`), Brazilian Portuguese (`pt-BR`), Japanese (`ja-JP`), Spanish (`es-ES`), German (`de-DE`), Simplified Chinese (`zh-CN`), and French (`fr-FR`) with automatic OS language detection.
 
 ### 🔄 2. Multi-Brand Ecosystem & Plugin Architecture
+* **Intelligent Auto-Detection:** Automatically identifies your connected headset, assigns the proper driver protocol, and adapts the UI on the fly.
 * **Sony MDR V1 Driver:** Serial HPC Protocol (RFCOMM Port 9) with complete support for the **Sony WF-1000XM3** (ANC, Wind Noise Reduction, Ambient Sound, Clear Bass, and touch/sensor controls).
-* **Sony Tandem V2 Driver:** Support for **WH-1000XM4**, **WF-1000XM4**, **WH-1000XM5**, and **WF-1000XM5** hardware protocols.
-* **Universal Windows 11 Driver:** System-wide EQ and spatial audio enhancement for **Apple AirPods**, **Samsung Galaxy Buds**, **Bose QuietComfort**, **realme Buds**, and any USB/3.5mm headsets.
+* **Sony Tandem V2 Driver:** Complete support for **WH-1000XM4**, **WF-1000XM4**, **WH-1000XM5**, and **WF-1000XM5** hardware protocols.
+* **Universal Windows 11 Driver:** System-wide EQ and spatial audio enhancement for **Apple AirPods**, **Samsung Galaxy Buds**, **Bose QuietComfort**, **realme Buds**, and all USB/3.5mm gaming headsets.
 
 ### 🎛️ 3. Windows 11 Global DSP Engine (Equalizer APO Bridge)
 * **64-bit Biquad Parametric Filters:** 6-band acoustic equalizer (Clear Bass + 400Hz, 1kHz, 2.5kHz, 6.3kHz, 16kHz) operating directly inside the Windows kernel audio engine (`AudioDG.exe`).
@@ -60,7 +61,7 @@ Created and engineered by **Matheus Veras**, **Sony Sound Connect PC** addresses
 Designed with modern **Clean Architecture** and the **Single Responsibility Principle (SRP)**:
 
 ```
-sony-sound-connect-pc/
+headsetplus-studio/
 ├── app/                        # Core Modular Application Package
 │   ├── config.py               # Configuration, Paths & Atomic Persistence Manager
 │   ├── win32_utils.py          # Low-Level Win32 Subsystems (Mutex, DWM Accent, Taskbar Icon, Language)
@@ -81,7 +82,8 @@ sony-sound-connect-pc/
 ├── ui/                         # Modern Frontend Web Assets (HTML5, CSS3, Modular JS)
 ├── assets/                     # 2K Renders, Official Icons & 3D Visual Assets
 ├── .github/workflows/ci.yml    # GitHub Actions Continuous Integration (Windows 11)
-├── sony_sound_connect_pc.pyw   # Lightweight Clean Entry Point (~75 lines)
+├── headsetplus_studio.pyw      # Official Lightweight Clean Entry Point (~20 lines)
+├── sony_sound_connect_pc.pyw   # Backward-Compatible Bridge Entry Point
 ├── config.json                 # User Configuration State (Atomic Safe Save)
 └── LICENSE.md                  # Proprietary Source-Available License
 ```
@@ -91,8 +93,8 @@ sony-sound-connect-pc/
 ## 🚀 Getting Started
 
 ### Option 1: Standalone Pre-Built Executable (Recommended)
-1. Navigate to the [Releases](https://github.com/MatheusVeras1/sony-sound-connect-pc/releases) page.
-2. Download **`SonySoundConnect-v1.0.0-Windows-Portable.zip`** or the installer **`SonySoundConnect-v1.0.0-Setup.exe`**.
+1. Navigate to the [Releases](https://github.com/MatheusVeras1/headsetplus-studio/releases) page.
+2. Download **`HeadsetPlus-Studio-v1.0.0-Windows-Portable.zip`** or the installer **`HeadsetPlus-Studio-v1.0.0-Setup.exe`**.
 3. Double-click the executable to run immediately—no Python installation required.
 
 ### Option 2: Running from Source (Developers)
@@ -100,14 +102,14 @@ Requires **Python 3.10+** on Windows 11.
 
 ```powershell
 # 1. Clone the repository
-git clone https://github.com/MatheusVeras1/sony-sound-connect-pc.git
-cd sony-sound-connect-pc
+git clone https://github.com/MatheusVeras1/headsetplus-studio.git
+cd headsetplus-studio
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
 # 3. Launch the application
-python sony_sound_connect_pc.pyw
+python headsetplus_studio.pyw
 ```
 
 ---
@@ -117,7 +119,7 @@ python sony_sound_connect_pc.pyw
 Build a standalone, single-file Windows executable (`.exe`) or distribution packages with a single command:
 
 ```powershell
-# Build single-file executable (dist/SonySoundConnect.exe)
+# Build single-file executable (dist/HeadsetPlusStudio.exe)
 python scripts/build_standalone_exe.py
 
 # Package portable ZIP and Inno Setup installer script

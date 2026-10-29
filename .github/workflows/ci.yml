@@ -1,4 +1,4 @@
-name: Sony Sound Connect PC — CI & Quality Gate
+name: HeadsetPlus Studio — CI & Quality Gate
 
 on:
   push:
@@ -62,14 +62,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 🔨 Compilar SonySoundConnect.exe Standalone
+      - name: 🔨 Compilar HeadsetPlusStudio.exe Standalone
         run: |
           python scripts/build_standalone_exe.py
 
       - name: 🚀 Publicar Artefato do Executável para Download
         uses: actions/upload-artifact@v4
         with:
-          name: SonySoundConnect-Windows-x64
-          path: dist/SonySoundConnect.exe
+          name: HeadsetPlusStudio-Windows-x64
+          path: dist/HeadsetPlusStudio.exe
           if-no-files-found: error
 

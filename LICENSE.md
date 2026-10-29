@@ -1,5 +1,5 @@
 # SOURCE-AVAILABLE SOFTWARE LICENSE AND TERMS OF USE
-### Sony Sound Connect PC / Universal Audio Hub
+### HeadsetPlus Studio / Universal Audio Hub
 **Copyright © 2026 Matheus Veras. All rights reserved.**  
 **Author and Exclusive Rights Holder:** Matheus Veras ([https://github.com/MatheusVeras1](https://github.com/MatheusVeras1))
 
