@@ -1,5 +1,5 @@
 """
-Driver Universal Windows 11 (Bateria Bluetooth PnP + Motor Global Equalizer APO) — Sony Sound Connect PC
+Driver Universal Windows 11 (Bateria Bluetooth PnP + Motor Global Equalizer APO) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 
@@ -116,7 +116,8 @@ class UniversalWindowsDriver(BaseHeadsetDriver):
 
         self.state["bat_l"] = pct
         self.state["bat_r"] = pct
-        self.state["bat_case"] = 0
+        is_tws_with_case = any(k in self.model_name.lower() for k in ("pro", "buds", "airpods")) and not "max" in self.model_name.lower()
+        self.state["bat_case"] = 92 if (self.mock_mode and is_tws_with_case) else 0
         self.state["bat_l_charging"] = False
         self.state["bat_r_charging"] = False
         self.state["bat_case_charging"] = False
@@ -132,6 +133,12 @@ class UniversalWindowsDriver(BaseHeadsetDriver):
             curr = self._refresh_battery_once()
             if curr != prev:
                 self.notify_state()
+
+    def query_all_states(self) -> None:
+        """Inquirição imediata de telemetria multimarca (atualiza bateria PnP e estado)."""
+        if self.connected:
+            self._refresh_battery_once()
+            self.notify_state()
 
     def disconnect(self) -> None:
         self._manual_disconnect = True

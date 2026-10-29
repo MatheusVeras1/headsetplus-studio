@@ -1,6 +1,6 @@
 import re
 
-with open('ui_ghub.html', 'r', encoding='utf-8') as f:
+with open('index.html', 'r', encoding='utf-8') as f:
     text = f.read()
 
 print('data-i18n count:', len(re.findall(r'data-i18n="([^"]+)"', text)))

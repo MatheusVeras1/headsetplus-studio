@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Master Audit & Automated Verification Suite
+HeadsetPlus Studio — Master Audit & Automated Verification Suite
 Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
 """
 import sys
@@ -93,6 +93,8 @@ rpc_tests = [
     ("get_detected_headsets", lambda: bridge.get_detected_headsets(False), lambda r: isinstance(r, list)),
     ("hide_to_tray", lambda: bridge.hide_to_tray(), lambda r: True),
     ("trigger_desktop_ios_overlay", lambda: bridge.trigger_desktop_ios_overlay(), lambda r: isinstance(r, dict) and r.get("ok") is True),
+    ("get_simulated_headset_models", lambda: bridge.get_simulated_headset_models(), lambda r: isinstance(r, list) and len(r) >= 10),
+    ("simulate_headset_model", lambda: bridge.simulate_headset_model("Sony WH-1000XM5"), lambda r: isinstance(r, dict) and r.get("mock_mode") is True),
 ]
 
 passed_rpc = 0

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Sony Sound Connect PC — Motor Gráfico de Equalização & Banco AutoEq™
+   HeadsetPlus Studio — Motor Gráfico de Equalização & Banco AutoEq™
    Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
    ========================================================================== */
 

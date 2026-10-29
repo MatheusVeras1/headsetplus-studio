@@ -23,8 +23,8 @@ cfg = load_config()
 print(f"   Config loaded language: {cfg.get('language')}")
 assert "language" in cfg
 
-print("\n3. Verificando cobertura do ui_ghub.html e ui/i18n.js...")
-with open("ui_ghub.html", "r", encoding="utf-8") as f:
+print("\n3. Verificando cobertura do index.html e ui/i18n.js...")
+with open("index.html", "r", encoding="utf-8") as f:
     html = f.read()
 
 with open("ui/i18n.js", "r", encoding="utf-8") as f:

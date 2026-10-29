@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Gerenciador da Bandeja do Sistema (Windows 11 System Tray)
+HeadsetPlus Studio — Gerenciador da Bandeja do Sistema (Windows 11 System Tray)
 Created by Matheus Veras • Licença: Source-Available Proprietary (Ver LICENSE.md)
 
 Responsabilidades:

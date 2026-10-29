@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Módulo Central da Aplicação
+HeadsetPlus Studio — Módulo Central da Aplicação
 Created by Matheus Veras • Licença: Source-Available Proprietary (Ver LICENSE.md)
 
 Pacote modularizado com arquitetura limpa de produção:

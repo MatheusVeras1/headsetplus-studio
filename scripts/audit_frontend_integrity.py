@@ -9,7 +9,7 @@ print("=" * 70)
 print("SESSÃO DE AUDITORIA COMPLETA: HANDLERS HTML & INTEGRAÇÃO JAVASCRIPT")
 print("=" * 70)
 
-with open("ui_ghub.html", "r", encoding="utf-8") as f:
+with open("index.html", "r", encoding="utf-8") as f:
     html = f.read()
 
 # Load all JS files
@@ -32,7 +32,7 @@ for attr in event_attrs:
     for m in matches:
         handlers_found.append((attr, m.strip()))
 
-print(f"\n[1] Extraídos {len(handlers_found)} manipuladores de eventos do ui_ghub.html.")
+print(f"\n[1] Extraídos {len(handlers_found)} manipuladores de eventos do index.html.")
 
 # Extract called function names from the handler strings
 called_functions = set()

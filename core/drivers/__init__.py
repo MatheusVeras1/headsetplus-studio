@@ -1,5 +1,5 @@
 """
-Fábrica & Registro de Drivers Multimarca — Sony Sound Connect PC
+Fábrica & Registro de Drivers Multimarca — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 """

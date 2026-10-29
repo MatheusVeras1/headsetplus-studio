@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Utilitários de Integração de Baixo Nível Win32 & DWM
+HeadsetPlus Studio — Utilitários de Integração de Baixo Nível Win32 & DWM
 Created by Matheus Veras • Licença: Source-Available Proprietary (Ver LICENSE.md)
 
 Responsabilidades:

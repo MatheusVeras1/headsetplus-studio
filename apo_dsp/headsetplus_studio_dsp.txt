@@ -1,17 +1,17 @@
 # =====================================================================
-# Sony Sound Connect PC — Global Windows 11 DSP Engine
+# HeadsetPlus Studio — Global Windows 11 DSP Engine
 # Created by Matheus Veras (Source-Available Proprietary — LICENSE.md)
-# Active Profile: Harman Reference
+# Active Profile: Custom Calibrado
 # =====================================================================
 Preamp: -3.40 dB
 
 # --- 6-Band Parametric & Clear Bass Filter Bank ---
-Filter 1: ON LSC Fc 95 Hz Gain 3.0 dB Q 0.71
+Filter 1: ON LSC Fc 95 Hz Gain 4.0 dB Q 0.71
 Filter 2: ON PK Fc 400 Hz Gain -1.0 dB Q 1.35
 Filter 3: ON PK Fc 1000 Hz Gain 2.0 dB Q 1.41
 Filter 4: ON PK Fc 2500 Hz Gain 4.0 dB Q 1.41
-Filter 5: ON PK Fc 6300 Hz Gain 4.0 dB Q 1.45
-Filter 6: ON HSC Fc 12500 Hz Gain 2.0 dB Q 0.75
+Filter 5: ON PK Fc 6300 Hz Gain 3.0 dB Q 1.45
+Filter 6: ON HSC Fc 12500 Hz Gain 1.0 dB Q 0.75
 
 # --- Linkwitz / Chu-Moy 3D Crossfeed Matrix (NEARFIELD @ 65%) ---
 Copy: L_DIR=L R_DIR=R L_X=L R_X=R

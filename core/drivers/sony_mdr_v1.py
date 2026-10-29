@@ -1,5 +1,5 @@
 """
-Driver Sony MDR V1 (WF-1000XM3, WH-1000XM3, WH-1000XM4) — Sony Sound Connect PC
+Driver Sony MDR V1 (WF-1000XM3, WH-1000XM3, WH-1000XM4) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 

@@ -1,5 +1,5 @@
 """
-Módulo de Integração Nativa com o Windows 11 — Sony Sound Connect PC / Universal Audio Hub
+Módulo de Integração Nativa com o Windows 11 — HeadsetPlus Studio / Universal Audio Hub
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 

@@ -1,5 +1,5 @@
 """
-Detector Universal de Dispositivos de Áudio Bluetooth & Bateria PnP — Sony Sound Connect PC
+Detector Universal de Dispositivos de Áudio Bluetooth & Bateria PnP — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 
@@ -53,6 +53,7 @@ KNOWN_BRANDS: Dict[str, Dict[str, Any]] = {
     "sony_v2": {
         "patterns": [
             r"WF-1000XM4",
+            r"WH-1000XM4",
             r"WF-1000XM5",
             r"WH-1000XM5",
             r"LinkBuds",

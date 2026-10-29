@@ -1,5 +1,5 @@
 """
-Driver Sony MDR Tandem V2 (WF-1000XM4, WF-1000XM5, WH-1000XM5, LinkBuds S, ULT WEAR) — Sony Sound Connect PC
+Driver Sony MDR Tandem V2 (WF-1000XM4, WF-1000XM5, WH-1000XM5, LinkBuds S, ULT WEAR) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 
@@ -28,7 +28,7 @@ class SonyMdrV2Driver(SonyMdrV1Driver):
         vstate.codec_id = 0x03  # LDAC Hi-Res
         vstate.bat_l = 96
         vstate.bat_r = 95
-        vstate.bat_case = 91
+        vstate.bat_case = 0 if clean_base.upper().startswith("WH-") else 91
         return MockRfcommSocket(virtual_state=vstate)
 
     def query_all_states(self) -> None:

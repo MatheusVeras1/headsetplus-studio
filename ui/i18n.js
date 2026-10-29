@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Sony Sound Connect PC — Motor de Internacionalização & Idiomas (i18n)
+   HeadsetPlus Studio — Motor de Internacionalização & Idiomas (i18n)
    Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
    ========================================================================== */
 

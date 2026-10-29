@@ -1,7 +1,7 @@
 import re
 import json
 
-with open('ui_ghub.html', 'r', encoding='utf-8') as f:
+with open('index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
 keys = set(re.findall(r'data-i18n="([^"]+)"', html))

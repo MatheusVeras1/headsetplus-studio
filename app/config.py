@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Gerenciador de Configuração & Constantes Globais
+HeadsetPlus Studio — Gerenciador de Configuração & Constantes Globais
 Created by Matheus Veras • Licença: Source-Available Proprietary (Ver LICENSE.md)
 
 Responsabilidades:

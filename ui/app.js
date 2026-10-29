@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Sony Sound Connect PC — Controlador Principal de Interface, Drivers & Automação
+   HeadsetPlus Studio — Controlador Principal de Interface, Drivers & Automação
    Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
    ========================================================================== */
 
@@ -129,39 +129,76 @@ function toggleDeviceSelector(e) {
   }
 }
 
+const SIMULATED_SHOWCASE_MODELS = [
+  { name: "Sony WH-1000XM5", brand: "Sony", desc: "Tandem V2 • LDAC Hi-Res • 8 Mics ANC" },
+  { name: "Sony WF-1000XM4", brand: "Sony", desc: "Tandem V2 • TWS Case + L/R • LDAC" },
+  { name: "Apple AirPods Pro", brand: "Apple", desc: "Universal Win11 • PnP • AutoEq Harman" },
+  { name: "Apple AirPods Max", brand: "Apple", desc: "Universal Win11 • Over-Ear APO 64-bit" },
+  { name: "Samsung Galaxy Buds2 Pro", brand: "Samsung", desc: "Universal Win11 • 24-bit Hi-Fi DSP" },
+  { name: "Bose QuietComfort 45", brand: "Bose", desc: "Universal Win11 • Acoustic Noise Cancelling" },
+  { name: "Sennheiser Momentum 4", brand: "Sennheiser", desc: "Universal Win11 • Audiophile 60h AutoEq" },
+  { name: "realme Buds Air 5 Pro", brand: "realme", desc: "Universal Win11 • Coaxial Dual • 50dB ANC" }
+];
+
 function renderDeviceSelectorItems() {
   const menu = document.getElementById("deviceSelectMenu");
   if (!menu) return;
   const headerTxt = window.getTranslation ? window.getTranslation("header.device_select_header") : "DRIVERS & FONES PAREADOS:";
   let html = `<div style="font-size: 0.66rem; font-weight: 700; color: var(--sony-copper-bright); padding: 6px 10px; text-transform: uppercase;">${headerTxt}</div>`;
-  detectedHeadsetsList.forEach((d) => {
-    const isSel = !isMockModeActive && d.name === activeHeadset.name;
-    const safeD = JSON.stringify(d).replace(/'/g, "&apos;");
-    const batTag = typeof d.battery_pct === "number" ? ` • ${d.battery_pct}%` : "";
-    const protoBadge = d.protocol === "sony_mdr_v2" ? "V2" : (d.protocol === "sony_mdr" ? "MDR" : "APO");
-    html += `
-      <div class="popover-item ${isSel ? "selected" : ""}" onclick='selectActiveHeadset(${safeD})'>
-        <div style="display: flex; flex-direction: column; gap: 2px;">
-          <div style="font-weight: 600; font-size: 0.79rem;">${d.name}</div>
-          <div style="font-size: 0.64rem; color: var(--text-muted); font-family: monospace;">${d.mac || "Windows PnP"}${batTag}</div>
+  if (!detectedHeadsetsList || detectedHeadsetsList.length === 0) {
+    html += `<div style="font-size: 0.72rem; color: var(--text-muted); padding: 4px 10px 8px 10px;">Nenhum fone físico conectado no momento.</div>`;
+  } else {
+    detectedHeadsetsList.forEach((d) => {
+      const isSel = !isMockModeActive && d.name === activeHeadset.name;
+      const safeD = JSON.stringify(d).replace(/'/g, "&apos;");
+      const batTag = typeof d.battery_pct === "number" ? ` • ${d.battery_pct}%` : "";
+      const protoBadge = d.protocol === "sony_mdr_v2" ? "V2" : (d.protocol === "sony_mdr" ? "MDR" : "APO");
+      html += `
+        <div class="popover-item ${isSel ? "selected" : ""}" onclick='selectActiveHeadset(${safeD})'>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-weight: 600; font-size: 0.79rem;">${d.name}</div>
+            <div style="font-size: 0.64rem; color: var(--text-muted); font-family: monospace;">${d.mac || "Windows PnP"}${batTag}</div>
+          </div>
+          <span class="device-item-pill">${d.brand || protoBadge}</span>
         </div>
-        <span class="device-item-pill">${d.brand || protoBadge}</span>
+      `;
+    });
+  }
+
+  const simHeaderTxt = window.getTranslation ? window.getTranslation("header.sim_section_header") : "🧪 LAB DE SIMULAÇÃO (TESTAR OUTROS FONES):";
+  html += `<div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 6px 4px 4px 4px;"></div>`;
+  html += `<div style="font-size: 0.64rem; font-weight: 700; color: var(--ghub-cyan); padding: 4px 10px; text-transform: uppercase;">${simHeaderTxt}</div>`;
+
+  SIMULATED_SHOWCASE_MODELS.forEach((sim) => {
+    const isSel = isMockModeActive && activeHeadset.name.includes(sim.name);
+    html += `
+      <div class="popover-item ${isSel ? "selected" : ""}" onclick="simulateModelFromDropdown('${sim.name}')">
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <div style="font-weight: 600; font-size: 0.77rem; color: #fff;">${sim.name}</div>
+          <div style="font-size: 0.62rem; color: var(--text-muted);">${sim.desc}</div>
+        </div>
+        <span class="device-item-pill" style="color: var(--ghub-cyan); border-color: rgba(0,245,212,0.3);">${sim.brand}</span>
       </div>
     `;
   });
-  const mockTitle = window.getTranslation ? window.getTranslation("header.mock_item_title") : "🤖 Simulador Virtual (Mock)";
-  const mockDesc = window.getTranslation ? window.getTranslation("header.mock_item_desc") : "Emulação RFCOMM completa sem hardware";
-  html += `
-    <div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 4px 4px;"></div>
-    <div class="popover-item ${isMockModeActive ? "selected" : ""}" onclick="activateMockFromDropdown()">
-      <div style="display: flex; flex-direction: column; gap: 2px;">
-        <div style="font-weight: 700; font-size: 0.78rem; color: var(--sony-copper-bright);">${mockTitle}</div>
-        <div style="font-size: 0.63rem; color: var(--text-muted);">${mockDesc}</div>
-      </div>
-      <span class="device-item-pill" style="color: var(--ghub-cyan);">${isMockModeActive ? "ON" : "DEV"}</span>
-    </div>
-  `;
+
   menu.innerHTML = html;
+}
+
+function simulateModelFromDropdown(modelName) {
+  document.getElementById("deviceSelectWrap")?.classList.remove("active");
+  document.getElementById("deviceSelectMenu")?.classList.remove("open");
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.simulate_headset_model) {
+    window.pywebview.api.simulate_headset_model(modelName).then((res) => {
+      isMockModeActive = true;
+      activeHeadset = { name: res.name, brand: res.brand, protocol: res.protocol, mac: "AA:BB:CC:DD:EE:FF" };
+      document.getElementById("modelTitle").textContent = `${res.name} (Simulado)`;
+      document.getElementById("brandPill").textContent = `${res.brand.toUpperCase()} AUDIO`;
+      renderDeviceSelectorItems();
+      const mockToggle = document.getElementById("chkMockMode");
+      if (mockToggle) mockToggle.checked = true;
+    });
+  }
 }
 
 function activateMockFromDropdown() {
@@ -171,6 +208,9 @@ function activateMockFromDropdown() {
 }
 
 function selectActiveHeadset(dev) {
+  isMockModeActive = false;
+  const mockToggle = document.getElementById("chkMockMode");
+  if (mockToggle) mockToggle.checked = false;
   activeHeadset = dev;
   document.getElementById("modelTitle").textContent = dev.name;
   document.getElementById("brandPill").textContent = `${(dev.brand || "BT").toUpperCase()} AUDIO`;

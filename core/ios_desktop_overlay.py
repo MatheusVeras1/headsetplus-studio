@@ -1,5 +1,5 @@
 """
-Overlay Flutuante Nativo Windows 11 Estilo Apple iOS (Per-Pixel Alpha) — Sony Sound Connect PC
+Overlay Flutuante Nativo Windows 11 Estilo Apple iOS (Per-Pixel Alpha) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 

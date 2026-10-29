@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Sony Sound Connect PC — Laboratório Acústico ISO 226, Crossfeed 3D & Dosímetro SPL
+   HeadsetPlus Studio — Laboratório Acústico ISO 226, Crossfeed 3D & Dosímetro SPL
    Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)
    ========================================================================== */
 

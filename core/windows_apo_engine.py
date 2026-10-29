@@ -1,5 +1,5 @@
 """
-Motor DSP Global para Windows 11 (Equalizer APO & Linkwitz Crossfeed Bridge) — Sony Sound Connect PC
+Motor DSP Global para Windows 11 (Equalizer APO & Linkwitz Crossfeed Bridge) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 
@@ -80,7 +80,7 @@ class WindowsApoEngine:
         if not linked and os.path.exists(APO_MAIN_CONFIG_FILE):
             try:
                 with open(APO_MAIN_CONFIG_FILE, "a", encoding="utf-8") as f:
-                    f.write(f"\n# Sony Sound Connect PC (Created by Matheus Veras)\nInclude: {APO_INCLUDE_FILENAME}\n")
+                    f.write(f"\n# HeadsetPlus Studio (Created by Matheus Veras)\nInclude: {APO_INCLUDE_FILENAME}\n")
                 linked = True
             except PermissionError:
                 return {
@@ -134,7 +134,7 @@ class WindowsApoEngine:
         """Gera script nativo Equalizer APO com anti-clipping Preamp, 6 bandas Biquad e Crossfeed Linkwitz."""
         lines: List[str] = [
             "# =====================================================================",
-            "# Sony Sound Connect PC — Global Windows 11 DSP Engine",
+            "# HeadsetPlus Studio — Global Windows 11 DSP Engine",
             "# Created by Matheus Veras (Source-Available Proprietary — LICENSE.md)",
             f"# Active Profile: {self.active_profile_label}",
             "# =====================================================================",

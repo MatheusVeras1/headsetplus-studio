@@ -1,5 +1,5 @@
 """
-Monitor de Saúde Auditiva & Dosímetro dB SPL (Estilo Apple iOS Headphone Safety) — Sony Sound Connect PC
+Monitor de Saúde Auditiva & Dosímetro dB SPL (Estilo Apple iOS Headphone Safety) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 

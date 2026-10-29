@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Orquestrador Central (SonyGHubController)
+HeadsetPlus Studio — Orquestrador Central (SonyGHubController)
 Created by Matheus Veras • Licença: Source-Available Proprietary (Ver LICENSE.md)
 
 Responsabilidades:
@@ -297,6 +297,70 @@ class SonyGHubController:
             "mac": mac,
             "brand": brand,
             "protocol": proto,
+        }
+
+    def get_simulated_headset_models(self) -> List[Dict[str, Any]]:
+        """Lista fones de referência homologados para teste e simulação virtual."""
+        return [
+            {"name": "Sony WF-1000XM3", "brand": "Sony", "protocol": "sony_mdr", "type": "TWS", "desc": "MDR V1 • Case + L/R • DSEE HX"},
+            {"name": "Sony WH-1000XM3", "brand": "Sony", "protocol": "sony_mdr", "type": "Over-Ear", "desc": "MDR V1 • Headset ANC • AAC/SBC"},
+            {"name": "Sony WF-1000XM4", "brand": "Sony", "protocol": "sony_mdr_v2", "type": "TWS", "desc": "Tandem V2 • Case + L/R • LDAC"},
+            {"name": "Sony WH-1000XM4", "brand": "Sony", "protocol": "sony_mdr_v2", "type": "Over-Ear", "desc": "Tandem V2 • LDAC • Speak-to-Chat"},
+            {"name": "Sony WF-1000XM5", "brand": "Sony", "protocol": "sony_mdr_v2", "type": "TWS", "desc": "Tandem V2 • V2/QN2e • LDAC Hi-Res"},
+            {"name": "Sony WH-1000XM5", "brand": "Sony", "protocol": "sony_mdr_v2", "type": "Over-Ear", "desc": "Tandem V2 • V1/QN1 • 8 Mics ANC"},
+            {"name": "Sony LinkBuds S", "brand": "Sony", "protocol": "sony_mdr_v2", "type": "TWS", "desc": "Tandem V2 • Ultra-Compacto • LDAC"},
+            {"name": "Sony ULT WEAR", "brand": "Sony", "protocol": "sony_mdr_v2", "type": "Over-Ear", "desc": "Tandem V2 • Bass Boost • ANC"},
+            {"name": "Apple AirPods Pro", "brand": "Apple / Beats", "protocol": "universal_windows", "type": "TWS", "desc": "Universal Win11 • PnP • AutoEq Harman"},
+            {"name": "Apple AirPods Max", "brand": "Apple / Beats", "protocol": "universal_windows", "type": "Over-Ear", "desc": "Universal Win11 • PnP • APO 64-bit"},
+            {"name": "Samsung Galaxy Buds2 Pro", "brand": "Samsung", "protocol": "universal_windows", "type": "TWS", "desc": "Universal Win11 • 24-bit DSP • AutoEq"},
+            {"name": "Bose QuietComfort 45", "brand": "Bose", "protocol": "universal_windows", "type": "Over-Ear", "desc": "Universal Win11 • Acoustic Noise Cancelling"},
+            {"name": "Sennheiser Momentum 4", "brand": "Sennheiser", "protocol": "universal_windows", "type": "Over-Ear", "desc": "Universal Win11 • Audiophile 60h • AutoEq"},
+            {"name": "realme Buds Air 5 Pro", "brand": "realme", "protocol": "universal_windows", "type": "TWS", "desc": "Universal Win11 • Coaxial Dual • 50dB ANC"},
+        ]
+
+    def simulate_headset_model(self, model_name: str) -> Dict[str, Any]:
+        """Alterna a aplicação para simular qualquer modelo selecionado em modo virtual."""
+        from core.autoeq_database import search_autoeq
+        cls_info = classify_headset_protocol(model_name)
+        brand = cls_info["brand"]
+        proto = cls_info["protocol"]
+
+        old_driver = self.client
+        try:
+            old_driver.shutdown()
+        except Exception:
+            pass
+
+        self.client = create_headset_driver(
+            protocol=proto,
+            mac="AA:BB:CC:DD:EE:FF",
+            port=9,
+            model_name=model_name,
+            brand_name=brand,
+            mock_mode=True,
+            apo_engine=self.apo_engine,
+            on_state_update=self.on_driver_state_updated,
+            on_status_msg=self.push_status,
+            on_wearing_event=self._on_physical_wearing_change,
+        )
+        self.client.connect()
+        self.client.query_all_states()
+
+        # Busca calibração de equalização AutoEq se disponível
+        clean_kw = model_name.replace("Sony ", "").replace("Apple ", "").replace("Samsung ", "").replace("Bose ", "").replace("Sennheiser ", "")
+        curves = search_autoeq(clean_kw)
+        if curves:
+            top = curves[0]
+            self.client.set_eq_custom(f"AutoEq: {top['name']}", top["clear_bass"], list(top["bands"]))
+
+        self.on_driver_state_updated()
+        self.push_toast(f"Simulando {model_name} (Modo Teste Virtual)", "🧪")
+        self.show_ios_popup(force_desktop=False)
+        return {
+            "name": model_name,
+            "brand": brand,
+            "protocol": proto,
+            "mock_mode": True,
         }
 
     def toggle_mock_mode(self, enabled: Optional[bool] = None) -> None:

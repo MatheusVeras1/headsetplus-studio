@@ -1,5 +1,5 @@
 """
-Interface Base de Drivers Multimarca (Plugin Architecture) — Sony Sound Connect PC
+Interface Base de Drivers Multimarca (Plugin Architecture) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 

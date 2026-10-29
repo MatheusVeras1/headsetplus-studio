@@ -1424,7 +1424,7 @@ TRANSLATIONS = {
 
 def generate_i18n_js():
     js_content = "/* ==========================================================================\n"
-    js_content += "   Sony Sound Connect PC — Motor de Internacionalização & Idiomas (i18n)\n"
+    js_content += "   HeadsetPlus Studio — Motor de Internacionalização & Idiomas (i18n)\n"
     js_content += "   Created by Matheus Veras • Source-Available Proprietary (Ver LICENSE.md)\n"
     js_content += "   ========================================================================== */\n\n"
     js_content += "const I18N_TRANSLATIONS = " + json.dumps(TRANSLATIONS, indent=2, ensure_ascii=False) + ";\n\n"

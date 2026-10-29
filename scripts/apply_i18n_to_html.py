@@ -2,7 +2,7 @@
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-with open("ui_ghub.html", "r", encoding="utf-8") as f:
+with open("index.html", "r", encoding="utf-8") as f:
     content = f.read()
 
 replacements = [
@@ -201,8 +201,8 @@ for target, repl in replacements:
     else:
         print("WARNING: target not found:\n" + target[:60] + "...")
 
-with open("ui_ghub.html", "w", encoding="utf-8") as f:
+with open("index.html", "w", encoding="utf-8") as f:
     f.write(content)
 
-print(f"Applied {applied}/{len(replacements)} replacements successfully to ui_ghub.html.")
+print(f"Applied {applied}/{len(replacements)} replacements successfully to index.html.")
 

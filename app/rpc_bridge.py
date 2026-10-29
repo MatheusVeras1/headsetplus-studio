@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sony Sound Connect PC — Ponte RPC (JavaScript <-> Python Bridge)
+HeadsetPlus Studio — Ponte RPC (JavaScript <-> Python Bridge)
 Created by Matheus Veras • Licença: Source-Available Proprietary (Ver LICENSE.md)
 
 Responsabilidades:
@@ -90,6 +90,14 @@ class GHubApiBridge:
     def get_windows_accent_color(self) -> Dict[str, Any]:
         """Obtém a cor de destaque real do Windows 11 para sincronização visual com o tema."""
         return query_windows_accent_color()
+
+    def get_simulated_headset_models(self) -> List[Dict[str, Any]]:
+        """Retorna catálogo de fones homologados para homologação e simulação interativa."""
+        return self._ctrl.get_simulated_headset_models()
+
+    def simulate_headset_model(self, model_name: str) -> Dict[str, Any]:
+        """Ativa a simulação instantânea de qualquer modelo para testes virtuais."""
+        return self._ctrl.simulate_headset_model(str(model_name))
 
     def select_headset_device(self, device: Dict[str, Any]) -> Dict[str, Any]:
         """Alterna dinamicamente entre drivers Sony V1, Sony Tandem V2 e Universal Windows 11."""

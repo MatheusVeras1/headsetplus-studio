@@ -1,5 +1,5 @@
 """
-Simulador Virtual de Hardware Bluetooth RFCOMM (Mock Harness) — Sony Sound Connect PC
+Simulador Virtual de Hardware Bluetooth RFCOMM (Mock Harness) — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 

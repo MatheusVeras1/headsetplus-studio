@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-with open('ui_ghub.html', 'r', encoding='utf-8') as f:
+with open('index.html', 'r', encoding='utf-8') as f:
     text = f.read()
 
 repls = [
@@ -18,5 +18,5 @@ for old, new in repls:
     else:
         print("Not found:", repr(old[:30]))
 
-with open('ui_ghub.html', 'w', encoding='utf-8') as f:
+with open('index.html', 'w', encoding='utf-8') as f:
     f.write(text)

@@ -54,6 +54,10 @@ Desenvolvido e arquitetado por **Matheus Veras**, o **HeadsetPlus Studio** é a 
 ### 🩺 8. Dosímetro Auditivo & Alerta OMS (CoreAudio COM)
 * Medição de pressão sonora estimada (dB SPL) com rastreamento de exposição sonora contínua em conformidade com as diretrizes da Organização Mundial da Saúde (OMS).
 
+### 🧪 9. Laboratório de Simulação & Homologação Multimarca
+* **Teste Sem Hardware Físico:** Permite experimentar e homologar fones como Sony WH-1000XM5, WF-1000XM4, Apple AirPods Pro, AirPods Max, Galaxy Buds2 Pro, Bose QC45 e Sennheiser Momentum 4 diretamente pelo dropdown de dispositivos da interface.
+* **Bateria de Testes Automatizada:** Suite de testes em `scripts/test_all_headsets_simulation.py` validando protocolos MDR V1, Tandem V2 e Universal Windows 11 com 100% de cobertura em 3,6 segundos.
+
 ---
 
 ## 🏗️ Arquitetura do Software

@@ -54,6 +54,10 @@ Created and engineered by **Matheus Veras**, **HeadsetPlus Studio** is the defin
 ### 🩺 8. Hearing Safety Dosimeter & WHO Guidelines Monitor
 * Real-time estimated sound pressure level (dB SPL) tracking via Windows CoreAudio COM, providing continuous exposure warnings aligned with World Health Organization (WHO) safety standards.
 
+### 🧪 9. Multi-Brand Simulation Lab & Automated Testing
+* **Test Without Physical Hardware:** Interactively emulate headsets such as Sony WH-1000XM5, WF-1000XM4, Apple AirPods Pro, AirPods Max, Samsung Galaxy Buds2 Pro, Bose QC45, and Sennheiser Momentum 4 directly from the device selector menu.
+* **Automated Homologation Test Suite:** Run `python scripts/test_all_headsets_simulation.py` to validate Sony MDR V1, Tandem V2, and Universal Windows 11 protocols, telemetry, AutoEq curves, and DSP dispatch across 17 models in under 4 seconds.
+
 ---
 
 ## 🏗️ Software Architecture

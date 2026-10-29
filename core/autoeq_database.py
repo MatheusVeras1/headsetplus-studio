@@ -1,5 +1,5 @@
 """
-AutoEq Calibration Database & Acoustic Compensation Engine — Sony Sound Connect PC
+AutoEq Calibration Database & Acoustic Compensation Engine — HeadsetPlus Studio
 Autor: Matheus Veras
 Licença: Source-Available Proprietary (Ver LICENSE.md)
 
